@@ -1,10 +1,15 @@
-from logless.decorator import log
+from logless.decorator import log_deco
+import requests
 
 
-@log
-def foo(arg1, arg2):
+@log_deco
+def foo():
+    arg1 = 1
+    arg2 = 2
     a = arg1 + arg2
-    return a
+    var = 5
+    b = a * var
+    return a + b
 
 
-print(foo(1, 2))
+print(foo())

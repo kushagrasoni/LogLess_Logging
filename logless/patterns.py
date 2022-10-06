@@ -3,6 +3,7 @@ def get_patterns(line: str):
     This searches for various pre-defined patterns in the line of code and returns them as their corresponding ALIAS.
     The patterns and ALIAS will be defined as part of ALGORITHM which will determine what different types of CRUCIAL
     Serverless function needs to be logged in order perform proper logging.
+
     :param line: Input line of code from the parsed source code.
     :return: <PATTERN ALIAS>
     """
