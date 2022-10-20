@@ -1,0 +1,107 @@
+Module(
+    body=[
+        FunctionDef(
+            name='lambda_handler',
+            args=arguments(
+                posonlyargs=[],
+                args=[
+                    arg(arg='event'),
+                    arg(arg='context')],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                Expr(
+                    value=Constant(value='\n    Accepts an action and a single number, performs the specified action on the number,\n    and returns the result.\n\n    :param event: The event dict that contains the parameters sent when the function\n                  is invoked.\n    :param context: The context in which the function is called.\n    :return: The result of the action.\n    ')),
+                Assign(
+                    targets=[
+                        Name(id='result', ctx=Store())],
+                    value=Constant(value=None)),
+                Assign(
+                    targets=[
+                        Name(id='action', ctx=Store())],
+                    value=Call(
+                        func=Attribute(
+                            value=Name(id='event', ctx=Load()),
+                            attr='get',
+                            ctx=Load()),
+                        args=[
+                            Constant(value='action')],
+                        keywords=[])),
+                Try(
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='number', ctx=Store())],
+                            value=Call(
+                                func=Attribute(
+                                    value=Name(id='event', ctx=Load()),
+                                    attr='get',
+                                    ctx=Load()),
+                                args=[
+                                    Constant(value='number')],
+                                keywords=[]))],
+                    handlers=[
+                        ExceptHandler(
+                            body=[
+                                Assign(
+                                    targets=[
+                                        Name(id='number', ctx=Store())],
+                                    value=Constant(value=0))])],
+                    orelse=[],
+                    finalbody=[]),
+                If(
+                    test=Compare(
+                        left=Name(id='action', ctx=Load()),
+                        ops=[
+                            Eq()],
+                        comparators=[
+                            Constant(value='increment')]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='result', ctx=Store())],
+                            value=BinOp(
+                                left=Name(id='number', ctx=Load()),
+                                op=Add(),
+                                right=Constant(value=1)))],
+                    orelse=[
+                        If(
+                            test=Compare(
+                                left=Name(id='action', ctx=Load()),
+                                ops=[
+                                    Eq()],
+                                comparators=[
+                                    Constant(value='decrement')]),
+                            body=[
+                                Assign(
+                                    targets=[
+                                        Name(id='result', ctx=Store())],
+                                    value=BinOp(
+                                        left=Name(id='number', ctx=Load()),
+                                        op=Sub(),
+                                        right=Constant(value=1))),
+                                Expr(
+                                    value=Call(
+                                        func=Attribute(
+                                            value=Name(id='logger', ctx=Load()),
+                                            attr='error',
+                                            ctx=Load()),
+                                        args=[
+                                            Constant(value='%s is not a valid action.'),
+                                            Name(id='action', ctx=Load())],
+                                        keywords=[]))],
+                            orelse=[])]),
+                Assign(
+                    targets=[
+                        Name(id='response', ctx=Store())],
+                    value=Dict(
+                        keys=[
+                            Constant(value='result')],
+                        values=[
+                            Name(id='result', ctx=Load())])),
+                Return(
+                    value=Name(id='response', ctx=Load()))],
+            decorator_list=[
+                Name(id='log', ctx=Load())])],
+    type_ignores=[])

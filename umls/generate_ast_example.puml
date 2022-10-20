@@ -1,0 +1,30 @@
+@startmindmap
+'Use of AST - Abstract Syntax Trees for categorizing the code
+
+caption Figure 2.2: Generating Abstract Syntax Tree based on the application code.
+'title AST Generated From Function
+
+* Generate AST
+** name
+** args
+*** event
+*** context
+** body
+*** Assign
+**** targets
+***** NameStore
+****** id = result
+****** value = 0
+*** Assign
+**** targets
+***** NameStore
+****** id = action
+****** value = 0
+*** .
+*** .
+*** .
+*** Return
+**** value
+***** NameLoad
+****** id = response
+@endmindmap

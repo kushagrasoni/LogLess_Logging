@@ -1,8 +1,7 @@
-from logless.decorator import log_deco
-import requests
+from logless import log
 
 
-@log_deco
+@log
 def foo():
     arg1 = 1
     arg2 = 2
