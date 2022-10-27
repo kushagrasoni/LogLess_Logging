@@ -32,7 +32,7 @@ def log(func):
         # print(f'Func Globals:\n {func.__globals__}')
         parsed_funct = ast.parse(source_code)
 
-        f = open('ast.txt', 'w')
+        f = open('../output/ast.txt', 'w')
 
         # print(func_ast)
         f.writelines(ast.dump(parsed_funct, indent=4))
