@@ -11,3 +11,21 @@ LOG_CONFIG = {
         }
     }
 }
+
+MODE_CONFIG = {
+    "SAFE": {
+        "SUPPORTED_LOG_LEVELS": [],
+        "LOG_VALUES": False,
+        "FREQUENCY": 2
+    },
+    "DEV": {
+        "SUPPORTED_LOG_LEVELS": [],
+        "LOG_VALUES": True,
+        "FREQUENCY": 2
+    },
+    "PROD": {
+        "SUPPORTED_LOG_LEVELS": [],
+        "LOG_VALUES": False,
+        "FREQUENCY": 1
+    }
+}
