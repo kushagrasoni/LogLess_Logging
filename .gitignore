@@ -1,6 +1,7 @@
 /.idea/
 /venv/
-/app.log
+/app/app.log
 /bin
 /lib
 pyvenv.cfg
+__pycache__

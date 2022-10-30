@@ -4,13 +4,15 @@ Purpose
 Shows how to implement an AWS Lambda function that handles input from direct
 invocation.
 """
+import sys
+
+sys.path.append('..')
+from logless import log
 
 import logging
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-from logless import log
 
 
 @log
