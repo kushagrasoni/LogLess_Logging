@@ -1,7 +1,7 @@
 @startmindmap
 'Use of AST - Abstract Syntax Trees for categorizing the code
 
-caption Figure: Generating Abstract Syntax Tree for Assign type AST.
+caption Figure 3: Generating Abstract Syntax Tree for Assign type AST.
 'title AST Generated From Function
 
 * Assign
