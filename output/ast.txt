@@ -19,7 +19,7 @@ Module(
                     value=Constant(value=None)),
                 Assign(
                     targets=[
-                        Name(id='action', ctx=Store())],
+                        Name(id='action_event', ctx=Store())],
                     value=Call(
                         func=Attribute(
                             value=Name(id='event', ctx=Load()),
@@ -52,7 +52,7 @@ Module(
                     finalbody=[]),
                 If(
                     test=Compare(
-                        left=Name(id='action', ctx=Load()),
+                        left=Name(id='action_event', ctx=Load()),
                         ops=[
                             Eq()],
                         comparators=[
@@ -68,7 +68,7 @@ Module(
                     orelse=[
                         If(
                             test=Compare(
-                                left=Name(id='action', ctx=Load()),
+                                left=Name(id='action_event', ctx=Load()),
                                 ops=[
                                     Eq()],
                                 comparators=[
@@ -89,7 +89,7 @@ Module(
                                             ctx=Load()),
                                         args=[
                                             Constant(value='%s is not a valid action.'),
-                                            Name(id='action', ctx=Load())],
+                                            Name(id='action_event', ctx=Load())],
                                         keywords=[]))],
                             orelse=[])]),
                 Assign(

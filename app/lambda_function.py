@@ -27,18 +27,18 @@ def lambda_handler(event, context):
     :return: The result of the action.
     """
     result = None
-    action = event.get('action')
+    action_event = event.get('action')
 
     try:
         number = event.get('number')
     except:
         number = 0
-    if action == 'increment':
+    if action_event == 'increment':
         result = number + 1
         # logger.info('Calculated result of %s', result)
-    elif action == 'decrement':
+    elif action_event == 'decrement':
         result = number - 1
-        logger.error("%s is not a valid action.", action)
+        logger.error("%s is not a valid action.", action_event)
 
     response = {'result': result}
     return response
