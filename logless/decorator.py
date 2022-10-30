@@ -1,7 +1,9 @@
 import inspect
 
+
 from logless.lister import Lister
 from logless.logger import logger
+from logless.node_visitor import NodeVisitor
 from logless.patterns import get_patterns
 from logless.create import get_log
 from logless.categorizer import *
@@ -47,15 +49,39 @@ def log(func):
         # for item in kwargs:
         #     print(f'\t{item}')
 
+        ######### METHOD 1
+        # print("PARENT NODE: ", type(parsed_funct).__name__)
+        # for child in ast.iter_child_nodes(parsed_funct):
+        #     print("CHILD NODE", child)
+
         # Lister().visit(parsed_funct)
 
+        ######### METHOD 2
         recursive_visitor = RecursiveVisitor()
-        # simple_visitor = SimpleVisitor()
-
         print('\nvisit recursive\n')
         recursive_visitor.visit(parsed_funct)
+
         # print('\nvisit simple\n')
+        # simple_visitor = SimpleVisitor()
         # simple_visitor.visit(parsed_funct)
+
+        ######### METHOD 3
+        # import symtable
+        # from io import StringIO
+        # from tokenize import generate_tokens, untokenize, INDENT
+        # source_code = _dedent(source_code)
+        # SymbolTable = symtable.symtable(source_code, 'string', 'exec')
+        # v = NodeVisitor(SymbolTable)
+        # v.visit(parsed_funct)
+        # _dedent borrowed from the myhdl package (www.myhdl.org)
+        # def _dedent(s):
+        #     """Dedent python code string."""
+        #
+        #     result = [t[:2] for t in generate_tokens(StringIO(s).readline)]
+        #     # set initial indent to 0 if any
+        #     if result[0][0] == INDENT:
+        #         result[0] = (INDENT, '')
+        #     return untokenize(result)
 
         # lines = source_code.split('\n')
         # for index in range(1, len(lines) - 1):
@@ -76,3 +102,4 @@ def log(func):
 
     # print(f'Arg1:: {func.arg1}')
     return getcode
+
