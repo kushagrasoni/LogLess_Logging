@@ -1,4 +1,4 @@
-from logger import logger
+from logless.logger import logger
 import os
 import secrets
 
