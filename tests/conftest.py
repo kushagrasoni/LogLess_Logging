@@ -1,6 +1,5 @@
 import pytest
 
-from conf.config import LOG_CONFIG
 from logless.generator import Generator
 
 # register plugins
@@ -13,7 +12,5 @@ def generator():
     """
     Fixture for the log generator
     """
-    # TODO: Define patterns for this fixture
-    patterns = [{}]
-    gen = Generator(LOG_CONFIG, patterns, None)
+    gen = Generator()
     return gen
