@@ -1,15 +1,6 @@
 import collections
-import dis
-import inspect
 
-import ast
-import linecache
-from pprint import pprint
 from sys import settrace
-
-import pysnooper
-
-from Scalpel.scalpel.cfg import CFGBuilder
 
 final_result = collections.OrderedDict()
 frame_to_local_reprs = {}
