@@ -1,11 +1,18 @@
 import collections
 
 from sys import settrace
+from fpdf import FPDF
+
 
 final_result = collections.OrderedDict()
 frame_to_local_reprs = {}
 func_name = None
 
+#event
+#event 
+# event type 
+#colour
+# text
 
 def log(func):
     """
@@ -61,13 +68,83 @@ def my_tracer(frame, event, arg=None):
                          'New var:....... ')
         for name, value_repr in final_result.items():
             if name not in old_local_reprs:
-                print(f'{event}->{newish_string}{name} = {value_repr}')
+                log_event = LogEvent(event,f'{event}->{newish_string}{name} = {value_repr}')
+                print(log_event)
             elif old_local_reprs[name] != value_repr:
                 print(f'{event}->Modified var:.. {newish_string}{name} = {value_repr}')
         if event == 'return':
             frame_to_local_reprs.pop(frame, None)
             return_value_repr = arg
             print(f'{event}->Return value:.. {return_value_repr}')
-
+        # print(SetColor(event,'blue'))
         return my_tracer
     return None
+
+
+    # Event 
+    # - name 
+    # - type 
+    # - text 
+    # - colour 
+
+
+class LogEvent():
+    def __init__(self, event_type, event_text):
+        self.event_type = event_type
+        self.event_text = event_text
+        self.type_color_map = {
+            'line':'white',
+            'call':'blue'
+        }
+        self.color_map = {'black' : "\u001b[30m",
+                    'red' : "\u001b[31m",
+                    'green' : "\u001b[32m",
+                    'yellow' : "\u001b[33m",
+                    'blue' : "\u001b[34m",
+                    'magenta' : "\u001b[35m",
+                    'cyan' : "\u001b[36m",
+                    'white' : "\u001b[37m",
+                    'none':''
+        }
+
+    def color_code(self):
+        return self.color_map[self.type_color_map[self.event_type]]
+    
+    def __str__(self):
+        return f'{self.color_code()}{self.event_text}'
+
+
+
+class  SetColor():
+    def __init__(self, text, color  = 'none'):
+        self.text = text
+        self.color = color
+        self.color_map = {'black' : "\u001b[30m",
+                    'red' : "\u001b[31m",
+                    'green' : "\u001b[32m",
+                    'yellow' : "\u001b[33m",
+                    'blue' : "\u001b[34m",
+                    'magenta' : "\u001b[35m",
+                    'cyan' : "\u001b[36m",
+                    'white' : "\u001b[37m",
+                    'none':''
+    }
+
+    def color_code(self):
+        return self.color_map[self.color]
+    
+    def __str__(self):
+        return f'{self.color_code()}{self.text}'
+
+
+    
+
+
+def pdf_print():
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size = 20)
+    pdf.cell(200, 10, txt = "LogLess",ln = 1, align = 'C')
+    pdf.output("logless.pdf")  
+
+
