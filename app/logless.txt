@@ -1,0 +1,8 @@
+call, Starting var:.. , event
+call, Starting var:.. , context
+line, New var:....... , result
+line, New var:....... , action_event
+line, New var:....... , number
+line, Modified var:.., result
+line, New var:....... , response
+return, Return value:.., return
