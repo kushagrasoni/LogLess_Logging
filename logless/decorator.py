@@ -1,3 +1,4 @@
+import collections
 import dis
 import inspect
 
@@ -9,6 +10,10 @@ from sys import settrace
 import pysnooper
 
 from Scalpel.scalpel.cfg import CFGBuilder
+
+final_result = collections.OrderedDict()
+frame_to_local_reprs = {}
+func_name = None
 
 
 def log(func):
@@ -25,69 +30,53 @@ def log(func):
     :param func: The input is the function to which decorator is used upon
     :return: The output of the function (if any)
     """
+    global func_name
+    func_name = func.__name__
 
     def getcode(*args, **kwargs):
-        with pysnooper.snoop(depth=1):
-            func(*args, **kwargs)
-        # source_code = inspect.getsource(func)
-        # parsed_funct = ast.parse(source_code)
-        #
-        # f = open('../output/ast.txt', 'w')
-        #
-        # f.writelines(ast.dump(parsed_funct, indent=4))
-        # f.close()
-
-        # dis.dis(func)
-        # it = dis.get_instructions(func)
-        # for i in it:
-        #     print(i)
-
-        # """ASTVisitor Subclassed using ast.NodeVisitor and overridden various visit_<node> methods and generic_visit
-        # method """
-        # from logless.visitor import ASTVisitor
-        # ast_visitor = ASTVisitor()
-        # print('\nvisit recursive\n')
-        # ast_visitor.visit(parsed_funct)
-        # pprint(f'\n\n\n\nFINAL RESULT LIST:\n')
-        # pprint(ast_visitor.result_list)
-        # print('\nEverything below this is App Output:')
-
-        # cfg = CFGBuilder().build_from_src(src=source_code, name='logless')
-        #
-        # for item in cfg.__iter__():
-        #     print(item)
-
-        # for block in cfg:
-        #     # print(dir(block))
-        #     # print(block.__str__)
-        #     print(block.get_source())
-        #     print(block.func_calls)
-        #     # print(block.statements)
-        #     calls = block.get_calls()
-        #     # print(dir(calls))
-        #     # print(calls)
-
+        settrace(my_tracer)
         return func(*args, **kwargs)
 
     # print(f'Arg1:: {func.arg1}')
     return getcode
 
 
-def traceit(frame, event, arg):
-    print(event)
-    # if event == "line":
-    #     lineno = frame.f_lineno
-    #     filename = frame.f_globals["__file__"]
-    #     # if (filename.endswith(".pyc") or
-    #     #         filename.endswith(".pyo")):
-    #     #     filename = filename[:-1]
-    #     name = frame.f_globals["__name__"]
-    #     line = linecache.getline(filename, lineno)
-    #     print("%s:%s: %s" % (name, lineno, line.rstrip()))
-    return traceit
+def get_local_reprs(frame, watch=(), custom_repr=(), max_length=None, normalize=False):
+    code = frame.f_code
+    vars_order = (code.co_varnames + code.co_cellvars + code.co_freevars +
+                  tuple(frame.f_locals.keys()))
+    # print(vars_order)
+    result_items = [(key, value)
+                    for key, value in frame.f_locals.items()]
+    # print(result_items)
+    result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))
+    # result_items.sort()
+    result = collections.OrderedDict(result_items)
 
-# def traceit(frame, event, arg):
-#     lineno = frame.f_lineno
-#     filename = frame.f_globals["__file__"]
-#     print("file %s line %d" % (filename, lineno))
-#     return traceit
+    for variable in watch:
+        result.update(sorted(variable.items(frame, normalize)))
+    return result
+
+
+# local trace function which returns itself
+def my_tracer(frame, event, arg=None):
+    function_name = frame.f_code.co_name
+    global final_result, frame_to_local_reprs
+    if function_name == func_name:
+        old_local_reprs = frame_to_local_reprs.get(frame, {})
+        frame_to_local_reprs[frame] = final_result = get_local_reprs(frame)
+
+        newish_string = ('Starting var:.. ' if event == 'call' else
+                         'New var:....... ')
+        for name, value_repr in final_result.items():
+            if name not in old_local_reprs:
+                print(f'{event}->{newish_string}{name} = {value_repr}')
+            elif old_local_reprs[name] != value_repr:
+                print(f'{event}->Modified var:.. {newish_string}{name} = {value_repr}')
+        if event == 'return':
+            frame_to_local_reprs.pop(frame, None)
+            return_value_repr = arg
+            print(f'{event}->Return value:.. {return_value_repr}')
+
+        return my_tracer
+    return None

@@ -17,8 +17,8 @@ logger.setLevel(logging.INFO)
 import pysnooper
 
 
-# @log
-@pysnooper.snoop(normalize=True)
+@log
+# @pysnooper.snoop(normalize=True)
 def lambda_handler(event, context):
     """
     Accepts an action and a single number, performs the specified action on the number,

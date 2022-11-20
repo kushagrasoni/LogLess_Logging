@@ -23,23 +23,26 @@ def foo():
 
 # local trace function which returns itself
 def my_tracer(frame, event, arg=None):
+    function_name = frame.f_code.co_name
     global final_result, frame_to_local_reprs
-    old_local_reprs = frame_to_local_reprs.get(frame, {})
-    frame_to_local_reprs[frame] = final_result = get_local_reprs(frame)
+    if function_name == 'foo':
+        old_local_reprs = frame_to_local_reprs.get(frame, {})
+        frame_to_local_reprs[frame] = final_result = get_local_reprs(frame)
 
-    newish_string = ('Starting var:.. ' if event == 'call' else
-                     'New var:....... ')
-    for name, value_repr in final_result.items():
-        if name not in old_local_reprs:
-            print(f'{event}->{newish_string}{name} = {value_repr}')
-        elif old_local_reprs[name] != value_repr:
-            print(f'{event}->Modified var:.. {newish_string}{name} = {value_repr}')
-    if event == 'return':
-        frame_to_local_reprs.pop(frame, None)
-        return_value_repr = arg
-        print(f'{event}->Return value:.. {return_value_repr}')
+        newish_string = ('Starting var:.. ' if event == 'call' else
+                         'New var:....... ')
+        for name, value_repr in final_result.items():
+            if name not in old_local_reprs:
+                print(f'{event}->{newish_string}{name} = {value_repr}')
+            elif old_local_reprs[name] != value_repr:
+                print(f'{event}->Modified var:.. {newish_string}{name} = {value_repr}')
+        if event == 'return':
+            frame_to_local_reprs.pop(frame, None)
+            return_value_repr = arg
+            print(f'{event}->Return value:.. {return_value_repr}')
 
-    return my_tracer
+        return my_tracer
+    return None
 
     # print(dir(frame))
     # extracts frame code
