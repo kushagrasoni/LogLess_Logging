@@ -66,27 +66,12 @@ class Generator:
 
     def log(self, event, assign_type, var_name, var_value, level):
         """
-        Begins logging procedure. It iterates through each pattern and generates an appropriate logging message
-        according to the characteristics. The logging messages then gets logged.
+        Branches into the respective log level method based on the verbosity
         """
-        # for pattern in self.patterns:
-        #     if pattern.get("verbosity") == INFO and INFO in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
-        #         self.log_info(pattern.get("pattern"))
         if level == INFO and INFO in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
             self.log_info(event, assign_type, var_name, var_value)
 
     def log_info(self, event, assign_type, var_name, var_value):
-        # Extract attributes from pattern
-        # for spec in pattern:
-        #     if isinstance(spec, tuple):
-        #         msg = ""
-        #         for i in range(len(spec)):
-        #             # TODO: determine if value should be logged according to configuration {LOG_VALUES}
-        #             if i == len(spec) - 1:
-        #                 msg += f"{spec[i]}"
-        #                 break
-        #             msg += f"{spec[i]}, "
-        #         self.logger.info(msg)
         logging_statement = f'{event}, {assign_type}, {var_name}'
         if self.mode_config.get("LOG_VALUES"):
             logging_statement += f', {var_value}'
