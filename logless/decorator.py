@@ -2,6 +2,7 @@ import collections
 
 from sys import settrace
 
+from conf.config import INFO
 # from fpdf import FPDF
 from logless.generator import LogEvent, Generator
 
@@ -76,19 +77,19 @@ def my_tracer(frame, event, arg=None):
                 # log_event.generate(event, f'{event}->{newish_string}{var_name} = {var_value}')
                 # log_event = LogEvent(event,f'{event}->{newish_string}{var_name} = {var_value}')
                 # print(f'{event}->{assign_type}{var_name} = {var_value}')
-                generator.log(event, assign_type, var_name, var_value)
+                generator.log(event, assign_type, var_name, var_value, INFO)
 
             elif old_local_reprs[var_name] != var_value:
                 assign_type = 'Modified var:..'
                 # print(f'{event}->Modified var:.. {assign_type}{var_name} = {var_value}')
-                generator.log(event, assign_type, var_name, var_value)
+                generator.log(event, assign_type, var_name, var_value, INFO)
         if event == 'return':
             frame_to_local_reprs.pop(frame, None)
             return_value = arg
             assign_type = 'Return value:..'
             var_name = 'return'
             # print(f'{event}-> {assign_type} {return_value}')
-            generator.log(event, assign_type, var_name, return_value)
+            generator.log(event, assign_type, var_name, return_value, INFO)
         # print(SetColor(event,'blue'))
         return my_tracer
     return None
