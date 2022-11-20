@@ -1,8 +1,7 @@
 from logless.logger import logger
 import os
-import secrets
 
-from conf.config import MODE_CONFIG, LOG_CONFIG, INFO
+from conf.config import MODE_CONFIG, INFO
 
 
 class LogEvent:
@@ -65,8 +64,7 @@ class Generator:
         self.logger = logger
         self.mode_config = self.get_mode_config()
 
-
-    def log(self, event, assign_type, var_name, var_value):
+    def log(self, event, assign_type, var_name, var_value, level):
         """
         Begins logging procedure. It iterates through each pattern and generates an appropriate logging message
         according to the characteristics. The logging messages then gets logged.
@@ -74,7 +72,8 @@ class Generator:
         # for pattern in self.patterns:
         #     if pattern.get("verbosity") == INFO and INFO in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
         #         self.log_info(pattern.get("pattern"))
-        self.log_info(event, assign_type, var_name, var_value)
+        if level == INFO and INFO in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
+            self.log_info(event, assign_type, var_name, var_value)
 
     def log_info(self, event, assign_type, var_name, var_value):
         # Extract attributes from pattern
@@ -88,7 +87,10 @@ class Generator:
         #                 break
         #             msg += f"{spec[i]}, "
         #         self.logger.info(msg)
-        self.logger.info(f'{event}, {assign_type}, {var_name}, {var_value}')
+        logging_statement = f'{event}, {assign_type}, {var_name}'
+        if self.mode_config.get("LOG_VALUES"):
+            logging_statement += f', {var_value}'
+        self.logger.info(logging_statement)
 
     def log_error(self, pattern):
         # TODO
@@ -109,29 +111,5 @@ class Generator:
         if not mode_config:
             # if env var not set correctly, set safe mode as the default
             mode_config = MODE_CONFIG.get("SAFE")
-        print("Mode config selected: ", mode_config)
+        # print("Mode config selected: ", mode_config)
         return mode_config
-
-
-# if __name__ == "__main__":
-#     # example usage
-#     patterns = [{
-#         "pattern": [('Assign',
-#                      'Total Targets: 1',
-#                      'Targets: [<ast.Name object at 0x110d46d60>]',
-#                      'Value: <ast.Call object at 0x110d46d30>'),
-#                     ('Name', 'action_event', '<ast.Store object at 0x1104faa90>'),
-#                     ('Call',
-#                      '<ast.Attribute object at 0x110d46d00>',
-#                      1,
-#                      '[<ast.Constant object at 0x110d46c70>]'),
-#                     ('Attribute',
-#                      'Value: <ast.Name object at 0x110d46cd0>',
-#                      'Attribute: get',
-#                      'Context: <ast.Load object at 0x1104faa30>'),
-#                     ('Name', 'event', '<ast.Load object at 0x1104faa30>'),
-#                     ('Constant', 'action')],
-#         "verbosity": "INFO"
-#     }]
-#     gen = Generator(LOG_CONFIG, patterns, None)
-#     gen.log()
