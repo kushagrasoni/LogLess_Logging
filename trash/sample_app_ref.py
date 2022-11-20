@@ -1,4 +1,4 @@
-from myDecorator_ref import my_wrapper
+from trash.myDecorator_ref import my_wrapper
 
 
 @my_wrapper("foo")
