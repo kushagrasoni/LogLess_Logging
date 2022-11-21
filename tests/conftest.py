@@ -19,7 +19,7 @@ def generator():
 
 
 # initialize fixtur
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def log_generator():
     """
     Fixture for the log generator
