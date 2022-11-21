@@ -21,7 +21,7 @@ def lambda_handler(event, context):
     r1 = session.get(url)
     r2 = session.get(url)
 
-    print('r1: ', r1.json()['headers']['Authorization'])
-    print('r2: ', r2.json()['headers']['Authorization'])
+    # print('r1: ', r1.json()['headers']['Authorization'])
+    # print('r2: ', r2.json()['headers']['Authorization'])
 
-    return r1
+    return r1, r2

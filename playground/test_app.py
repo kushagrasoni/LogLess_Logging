@@ -1,19 +1,15 @@
 import collections
 from sys import settrace
-import pysnooper
 
-# @pysnooper.snoop(normalize=True, depth=2)
-# from trash.snoop import utils
 final_result = collections.OrderedDict()
 frame_to_local_reprs = {}
 
-
-# @pysnooper.snoop()
 def foo():
-    arg1 = 1
+    arg1 = 5
     arg2 = 2
     if arg1 > arg2:
         a = arg1 - arg2
+        c = arg1/arg2
     else:
         a = arg2 - arg1
     var = 5
@@ -82,6 +78,27 @@ def get_local_reprs(frame, watch=(), custom_repr=(), max_length=None, normalize=
     return result
 
 
+settrace(my_tracer)
+
+foo()
+# # print(f'Output: {foo()}')
+
+# for item in final_result.items():
+#     print(item)
+
+
+# cfg = CFGBuilder().build_from_src(src=inspect.getsource(foo))
+
+
+# dis.dis(foo)
+
+# Frame
+# ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'clear', 'f_back', 'f_builtins', 'f_code', 'f_globals', 'f_lasti', 'f_lineno', 'f_locals', 'f_trace', 'f_trace_lines', 'f_trace_opcodes']
+
+# Code
+# ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_kwonlyargcount', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_posonlyargcount', 'co_stacksize', 'co_varnames', 'replace']
+
+
 # def traceit(frame, event, arg):
 #     print(event)
 #     if event == "line":
@@ -102,22 +119,3 @@ def get_local_reprs(frame, watch=(), custom_repr=(), max_length=None, normalize=
 #     return traceit
 
 # settrace(traceit)
-settrace(my_tracer)
-#
-foo()
-# # print(f'Output: {foo()}')
-
-# for item in final_result.items():
-#     print(item)
-
-
-# cfg = CFGBuilder().build_from_src(src=inspect.getsource(foo))
-
-
-# dis.dis(foo)
-
-# Frame
-# ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'clear', 'f_back', 'f_builtins', 'f_code', 'f_globals', 'f_lasti', 'f_lineno', 'f_locals', 'f_trace', 'f_trace_lines', 'f_trace_opcodes']
-
-# Code
-# ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_kwonlyargcount', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_posonlyargcount', 'co_stacksize', 'co_varnames', 'replace']
