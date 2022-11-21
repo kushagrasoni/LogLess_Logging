@@ -37,7 +37,7 @@ def lambda_handler(event, context):
     if action_event == 'increment':
         # result = increase_by_1(number)
         result = number + 1
-        # logger.info('Calculated result of %s', result)
+        logger.info('Calculated result of %s', result)
     elif action_event == 'decrement':
         # result = decrease_by_1(number)
         result = number - 1

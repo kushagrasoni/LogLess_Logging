@@ -3,8 +3,8 @@ import collections
 from sys import settrace
 from logless.event import Event
 from conf.config import INFO
-from logless.generator import  Generator
-from logless.log_output import  LogGenerator
+from logless.generator import Generator
+from logless.log_output import LogGenerator
 
 final_result = collections.OrderedDict()
 frame_to_local_reprs = {}
@@ -63,22 +63,22 @@ def my_tracer(frame, event, arg=None):
         old_local_reprs = frame_to_local_reprs.get(frame, {})
         frame_to_local_reprs[frame] = final_result = get_local_reprs(frame)
 
-        assign_type = ('Starting var:.. ' if event == 'call' else
-                       'New var:....... ')
+        assign_type = ('Starting Variable' if event == 'call' else
+                       'Initializing Variable')
         for var_name, var_value in final_result.items():
             if var_name not in old_local_reprs:
                 e = Event(event, assign_type, var_name, var_value, INFO)
                 log_generator.add_event(e)
 
             elif old_local_reprs[var_name] != var_value:
-                assign_type = 'Modified var:..'
+                assign_type = 'Updated Variable'
                 e = Event(event, assign_type, var_name, var_value, INFO)
                 log_generator.add_event(e)
         if event == 'return':
             frame_to_local_reprs.pop(frame, None)
             return_value = arg
-            assign_type = 'Return value:..'
-            var_name = 'return'
+            assign_type = f'Function {func_name} returns'
+            var_name = ''
             e = Event(event, assign_type, var_name, var_value, INFO)
             log_generator.add_event(e)
         log_generator.print_to_terminal()

@@ -1,14 +1,13 @@
 import os
-#from fpdf import FPDF
+# from fpdf import FPDF
 from conf.config import MODE_CONFIG, INFO
 from dataclasses import dataclass
 from logless.event import Event
 from conf.config import MODE_CONFIG, INFO
 
 
-
-class LogGenerator():
-    def __init__(self ):
+class LogGenerator:
+    def __init__(self):
         self.events = []
         self.color_map = {'black': "\u001b[30m",
                           'red': "\u001b[31m",
@@ -22,34 +21,33 @@ class LogGenerator():
                           }
 
         self.mode_config = self.get_mode_config()
-        
 
     def wrap_color(self, text, color):
         return f'{self.color_map[color]}{text}\u001b[0m'
 
     def with_colors(self, event):
         event_type = self.wrap_color(event.event_type, "blue")
-        assign_type = self.wrap_color(event.assign_type,"yellow") 
-        var_name = self.wrap_color(event.var_name,"magenta") 
-        var_value = self.wrap_color(event.var_value,"green")
+        assign_type = self.wrap_color(event.assign_type, "yellow")
+        var_name = self.wrap_color(event.var_name, "magenta")
+        var_value = self.wrap_color(event.var_value, "green")
 
-        event_str = f'{event_type}, {assign_type}, {var_name}'
+        event_str = f'{event_type} {assign_type} {var_name}'
 
         if self.mode_config.get("LOG_VALUES"):
-            event_str += f', {var_value}'
+            event_str += f' with value = {var_value}'
         return event_str
-    
+
     def without_colors(self, event):
-        event_str = f'{event.event_type}, {event.assign_type}, {event.var_name}'
+        event_str = f'{event.event_type} {event.assign_type} {event.var_name}'
 
         if self.mode_config.get("LOG_VALUES"):
-            event_str += f', {event.var_value}'
+            event_str += f' with value = {event.var_value}'
 
         return event_str
 
-    def add_event(self, event : Event):
+    def add_event(self, event: Event):
         self.events.append(event)
-    
+
     def print_to_terminal(self):
         for event in self.events:
             print(self.with_colors(event))
@@ -58,7 +56,7 @@ class LogGenerator():
         with open('logless.txt', 'a') as f:
             for event in self.events:
                 f.write(f'{self.without_colors(event)}\n')
-    
+
     # still in progress
     # def print_to_pdf(self):
     #     pdf = FPDF()
@@ -66,7 +64,6 @@ class LogGenerator():
     #     pdf.set_font("Arial", size=20)
     #     pdf.cell(200, 10, txt="LogLess", ln=1, align='C')
     #     pdf.output("logless.pdf")
-    
 
     """ STATIC METHODS """
 
