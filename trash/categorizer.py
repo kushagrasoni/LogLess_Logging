@@ -42,7 +42,7 @@ def get_category(ast_node):
 
 if __name__ == '__main__':
     # would be handled by other functions
-    with open('../app/lambda_function.py', 'r') as f:
+    with open('../app2/sample_app2.py', 'r') as f:
         parsed_funct = ast.parse(f.read())
     i = 0
     for node in ast.walk(parsed_funct):
