@@ -24,3 +24,4 @@ class TestGenerator:
         expected_mode_config = MODE_CONFIG.get("DEV")
         actual_mode_config = generator.get_mode_config()
         assert expected_mode_config == actual_mode_config
+

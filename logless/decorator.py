@@ -13,7 +13,7 @@ func_name = None
 generator = Generator()
 
 
-def log(func, output_format = 'terminal'):
+def log(func):
     """
     This is the decorator which will be used by any function in the application code.
     This decorator is to bused in the following format:
@@ -37,20 +37,18 @@ def log(func, output_format = 'terminal'):
     return getcode
 
 
-def get_local_reprs(frame, watch=(), custom_repr=(), max_length=None, normalize=False):
+def get_local_reprs(frame):
     code = frame.f_code
     vars_order = (code.co_varnames + code.co_cellvars + code.co_freevars +
                   tuple(frame.f_locals.keys()))
-    # print(vars_order)
+
     result_items = [(key, value)
                     for key, value in frame.f_locals.items()]
-    # print(result_items)
+
     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))
-    # result_items.sort()
+
     result = collections.OrderedDict(result_items)
 
-    for variable in watch:
-        result.update(sorted(variable.items(frame, normalize)))
     return result
 
 
@@ -82,7 +80,7 @@ def my_tracer(frame, event, arg=None):
             e = Event(event, assign_type, var_name, var_value, INFO)
             log_generator.add_event(e)
         log_generator.print_to_terminal()
-        #log_generator.print_to_txt()
+
         return my_tracer
     return None
 

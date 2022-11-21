@@ -2,7 +2,7 @@ from scalpel.cfg import CFGBuilder
 
 from Scalpel.scalpel.import_graph.import_graph import ImportGraph, Tree
 
-cfg = CFGBuilder().build_from_file('test_cfg_func.py', './test_cfg_func.py')
+cfg = CFGBuilder().build_from_file('cfg_func.py', 'cfg_func.py')
 
 
 # cfg.build_visual('pdf')
@@ -23,7 +23,7 @@ for (block_id, fun_name), fun_cfg in cfg.functioncfgs.items():
     print(block_id, fun_name)
 
 
-# root_node = Tree("test_cfg_func.py")
+# root_node = Tree("cfg_func.py")
 # import_graph = ImportGraph()
 # import_graph.build_dir_tree()
 # module_dict = import_graph.parse_import(root_node)
