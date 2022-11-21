@@ -75,9 +75,9 @@ def my_tracer(frame, event, arg=None):
         if event == 'return':
             frame_to_local_reprs.pop(frame, None)
             return_value = arg
-            assign_type = f'Function {func_name} returns'
+            assign_type = f'Function "{func_name}" returns'
             var_name = ''
-            e = Event(event, assign_type, var_name, var_value, INFO)
+            e = Event(event, assign_type, var_name, return_value, INFO)
             log_generator.add_event(e)
         log_generator.print_to_terminal()
 

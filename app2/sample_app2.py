@@ -35,12 +35,12 @@ def lambda_handler(event, context):
     except:
         number = 0
     if action_event == 'increment':
-        # result = increase_by_1(number)
-        result = number + 1
+        result = increase_by_1(number)
+        # result = number + 1
         logger.info('Calculated result of %s', result)
     elif action_event == 'decrement':
-        # result = decrease_by_1(number)
-        result = number - 1
+        result = decrease_by_1(number)
+        # result = number - 1
         logger.error("%s is not a valid action.", action_event)
 
     response = {'result': result}

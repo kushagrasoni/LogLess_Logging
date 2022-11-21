@@ -30,7 +30,7 @@ def get_category(ast_node):
     # should be logged
     node_type_name = type(ast_node).__name__
 
-    connection = sqlite3.connect('../db/logless.db')
+    connection = sqlite3.connect('db/logless.db')
     cursor = connection.cursor()
     row = cursor.execute(f"SELECT * FROM category where name = '{node_type_name}' limit 1;").fetchone()
     if row:
