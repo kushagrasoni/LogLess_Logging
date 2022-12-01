@@ -1,0 +1,18 @@
+@startmindmap
+
+caption Figure 2.1: Passing each event of the Source Code through a tracer and log formatter
+'title Sample Lambda Function
+
+*:<code>
+def <function>(*args):
+    line...
+    line...
+    line...
+    line...
+    exception...
+    return <response>
+</code>;
+
+** settrace()
+*** tracer
+@endmindmap
