@@ -97,3 +97,16 @@ class TestLogOutput:
         actual_event_str = log_generator.without_colors(self.event1)
         assert actual_event_str == f"{self.event1.event_type} {self.event1.assign_type} {self.event1.var_name} with " \
                                    f"value = {self.event1.var_value}"
+
+    def test_print_to_txt(self, log_generator):
+        filename = 'test_file.txt'
+        try:
+            log_generator.add_event(self.event1)
+            log_generator.print_to_txt(filename)
+            with open(filename, 'r') as f:
+                line = f.readline()
+                assert line != ""
+            f.close()
+        finally:
+            os.remove(filename)
+
