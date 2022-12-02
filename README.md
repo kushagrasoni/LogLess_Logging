@@ -17,7 +17,7 @@ pytest -v
 
 1. Run the testing suite under coverage.
 ```
-coverage run -m pytest -v
+coverage run -m pytest -v tests
 ```
 2. Report the results in an HTML page.
 ```
