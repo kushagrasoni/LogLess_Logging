@@ -1,6 +1,6 @@
 import sys
 sys.path.append('..')
-from logless import log
+#from logless import log
 
 class Observer:
     _observers = []
@@ -33,7 +33,7 @@ class Room(Observer):
         print(who + " has arrived!")
         self.observer = who
 
-@log
+#@log
 def check_in(event, context):
     room = Room()
     room.observe('someone arrived',  room.someone_arrived)

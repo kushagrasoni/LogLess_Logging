@@ -1,6 +1,6 @@
 import sys
 sys.path.append('..')
-from logless import log
+#from logless import log
 
 class Event(object):
 
@@ -60,7 +60,7 @@ class Lock(object):
     def RemoveSubscribersForLockBrokenEvent(self, objMethod):
         self.OnLockBroken -= objMethod
 
-@log
+#@log
 def Simulation(event, context):
     # In the simulation we have a lock
     # which will be broken and the object of Police
