@@ -1,0 +1,46 @@
+@startuml
+'Use of AST - Abstract Syntax Trees for categorizing the code
+
+'caption Figure 3: Generating Abstract Syntax Tree for Assign type AST.
+'title AST Generated From Function
+
+object Decorator {
+    get_code()
+    settrace(tracer)
+}
+
+object Tracer {
+    trace()
+}
+
+object Formatter {
+    event_type: str
+    assign_type: str
+    var_name: str
+    var_value: str
+    level: str
+}
+
+object Generator {
+    get_mode_config()
+    add_event()
+    with_colors()
+    without_colors()
+    log()
+    log_info()
+    log_error()
+    print_to_txt()
+    print_to_terminal()
+}
+
+object Output {
+    logging
+}
+
+
+Decorator --> Tracer
+Tracer <--> Generator
+Generator <-le-> Formatter
+Generator -ri-> Output
+
+@enduml

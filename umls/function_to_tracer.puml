@@ -1,9 +1,21 @@
 @startmindmap
 
-caption Figure 2.1: Passing each event of the Source Code through a tracer and log formatter
+'caption Figure 2.1: Passing each event type of the Source Code through a tracer and log formatter
 'title Sample Lambda Function
 
-*:<code>
++[#Orange] Decorator
+
+right side 
+
+++[#lightblue] settrace()
+++[#lightblue] tracer
++++[#lightblue] Formatter
++++[#lightblue] Generator
+++++[#lightgreen] Log Output
+
+left side 
+
+**[#lightgreen]:<code>
 def <function>(*args):
     line...
     line...
@@ -13,6 +25,4 @@ def <function>(*args):
     return <response>
 </code>;
 
-** settrace()
-*** tracer
 @endmindmap
