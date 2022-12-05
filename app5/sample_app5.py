@@ -3,7 +3,7 @@ import sys
 sys.path.append('..')
 import logless
 
-
+@logless.log(mode='DEV')
 class Observer:
     _observers = []
 

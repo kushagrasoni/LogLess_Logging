@@ -3,7 +3,7 @@ import sys
 sys.path.append('..')
 import logless
 
-
+@logless.log()
 class Event(object):
 
     def __init__(self):

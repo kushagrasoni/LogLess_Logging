@@ -49,7 +49,6 @@ class LogLess:
         """
         func_name = function.__name__
         trace = Tracer(func_name, self.mode)
-        print(self.mode)
 
         @functools.wraps(function)
         def wrapper(*args, **kwargs):
@@ -57,7 +56,6 @@ class LogLess:
             This is a wrapper function within the decorator which handles the arguments of the decorated function.
             return: Returns the decorated function call
             """
-            print(args)
             settrace(trace.tracer)
             result = function(*args, **kwargs)
             settrace(None)
