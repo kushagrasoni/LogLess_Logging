@@ -18,7 +18,7 @@ def generator():
     return gen
 
 
-# initialize fixtur
+# initialize fixture
 @pytest.fixture(scope="function")
 def log_generator():
     """

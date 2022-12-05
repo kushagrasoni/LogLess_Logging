@@ -52,8 +52,8 @@ class LogGenerator:
         for event in self.events:
             print(self.with_colors(event))
 
-    def print_to_txt(self):
-        with open('logless.txt', 'a') as f:
+    def print_to_txt(self, filename):
+        with open(filename, 'a') as f:
             for event in self.events:
                 f.write(f'{self.without_colors(event)}\n')
 

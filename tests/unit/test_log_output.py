@@ -1,3 +1,6 @@
+import os
+
+from conf.config import MODE_CONFIG
 from logless.event import Event
 
 
@@ -65,3 +68,45 @@ class TestLogOutput:
         log_generator.print_to_terminal()
 
         mock_print.assert_not_called()
+
+    def test_get_mode_config_not_set(self, log_generator):
+        """
+        Tests getting logging mode configurations without prior setting
+        """
+        os.environ["LOGGING_MODE"] = ""
+        expected_mode_config = MODE_CONFIG.get("SAFE")
+        actual_mode_config = log_generator.get_mode_config()
+        assert expected_mode_config == actual_mode_config
+
+    def test_get_mode_config_set(self, log_generator):
+        """
+        Tests getting logging mode configurations with predefined setting
+        """
+        os.environ["LOGGING_MODE"] = "DEV"
+        expected_mode_config = MODE_CONFIG.get("DEV")
+        actual_mode_config = log_generator.get_mode_config()
+        assert expected_mode_config == actual_mode_config
+
+    def test_without_colors_and_without_values(self, log_generator):
+        log_generator.mode_config = MODE_CONFIG.get("SAFE")
+        actual_event_str = log_generator.without_colors(self.event1)
+        assert actual_event_str == f"{self.event1.event_type} {self.event1.assign_type} {self.event1.var_name}"
+
+    def test_without_colors_and_with_values(self, log_generator):
+        log_generator.mode_config = MODE_CONFIG.get("DEV")
+        actual_event_str = log_generator.without_colors(self.event1)
+        assert actual_event_str == f"{self.event1.event_type} {self.event1.assign_type} {self.event1.var_name} with " \
+                                   f"value = {self.event1.var_value}"
+
+    def test_print_to_txt(self, log_generator):
+        filename = 'test_file.txt'
+        try:
+            log_generator.add_event(self.event1)
+            log_generator.print_to_txt(filename)
+            with open(filename, 'r') as f:
+                line = f.readline()
+                assert line != ""
+            f.close()
+        finally:
+            os.remove(filename)
+

@@ -13,6 +13,18 @@ Execute the testing suite.
 pytest -v
 ```
 
+## Code Coverage
+
+1. Run the testing suite under coverage.
+```
+coverage run -m pytest -v tests
+```
+2. Report the results in an HTML page.
+```
+coverage html
+```
+3. Open the `htmlcov/index.html` file in a browser to view the results.
+
 ## Application Testing
 
 TODO - Describe how to test each example application (appX) that is in this repository.
