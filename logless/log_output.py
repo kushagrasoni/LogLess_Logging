@@ -1,9 +1,7 @@
-import os
 # from fpdf import FPDF
-from conf.config import MODE_CONFIG, INFO
-from dataclasses import dataclass
 from logless.event import Event
-from conf.config import MODE_CONFIG, INFO
+from conf.config import MODE_CONFIG, INFO, ERROR
+from logless.logger import logger
 
 
 class LogGenerator:
@@ -21,6 +19,7 @@ class LogGenerator:
                           }
         self.mode = mode
         self.mode_config = self.get_mode_config()
+        self.logger = logger
 
     def wrap_color(self, text, color):
         return f'{self.color_map[color]}{text}\u001b[0m'
@@ -56,6 +55,14 @@ class LogGenerator:
         with open('logless.txt', 'a') as f:
             for event in self.events:
                 f.write(f'{self.without_colors(event)}\n')
+
+    def log(self):
+        for event in self.events:
+            if event.level in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
+                if event.level == INFO:
+                    self.logger.info(self.with_colors(event))
+                elif event.level == ERROR:
+                    self.logger.error(self.without_colors(event))
 
     # still in progress
     # def print_to_pdf(self):

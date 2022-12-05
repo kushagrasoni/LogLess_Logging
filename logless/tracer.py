@@ -54,6 +54,7 @@ class Tracer:
                 e = Event(event, assign_type, var_name, return_value, INFO)
                 log_generator.add_event(e)
             log_generator.print_to_terminal()
+            log_generator.log()
 
             return self.tracer
         return None
