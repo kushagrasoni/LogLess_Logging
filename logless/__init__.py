@@ -1,1 +1,1 @@
-from logless.decorator import log
+from .logless import LogLess as log

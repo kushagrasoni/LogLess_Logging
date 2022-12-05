@@ -7,7 +7,7 @@ from conf.config import MODE_CONFIG, INFO
 
 
 class LogGenerator:
-    def __init__(self):
+    def __init__(self, mode=None):
         self.events = []
         self.color_map = {'black': "\u001b[30m",
                           'red': "\u001b[31m",
@@ -19,7 +19,7 @@ class LogGenerator:
                           'white': "\u001b[37m",
                           'none': ''
                           }
-
+        self.mode = mode
         self.mode_config = self.get_mode_config()
 
     def wrap_color(self, text, color):
@@ -65,15 +65,13 @@ class LogGenerator:
     #     pdf.cell(200, 10, txt="LogLess", ln=1, align='C')
     #     pdf.output("logless.pdf")
 
-    """ STATIC METHODS """
-
-    @staticmethod
-    def get_mode_config():
+    def get_mode_config(self):
         """
         Utility function to get environment mode configurations based on environment setting
         """
         # extract environment mode configurations
-        mode_config = MODE_CONFIG.get(os.getenv("LOGGING_MODE"))
+        # mode_config = MODE_CONFIG.get(os.getenv("LOGGING_MODE"))
+        mode_config = MODE_CONFIG.get(self.mode)
         if not mode_config:
             # if env var not set correctly, set safe mode as the default
             mode_config = MODE_CONFIG.get("SAFE")

@@ -1,7 +1,7 @@
 import sys
 
-from logless import log
-from logless.decorator import my_tracer
+import logless
+from logless.logless import Tracer
 
 
 class TestDecorator:
@@ -13,8 +13,8 @@ class TestDecorator:
         # have to patch the method wrt location of this project's package (not sys.settrace)
         mock_settrace = mocker.patch('logless.decorator.settrace')
 
-        @log
+        @logless.log()
         def test_function(*args, **kwargs):
-            mock_settrace.assert_called_once_with(my_tracer)
+            mock_settrace.assert_called_once_with(Tracer().tracer)
 
         test_function()

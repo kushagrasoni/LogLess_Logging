@@ -3,10 +3,10 @@ import sys
 import requests
 
 sys.path.append('..')
-from logless import log
+import logless
 
 
-@log
+@logless.log()
 def lambda_handler(event, context):
     session = requests.Session()
 

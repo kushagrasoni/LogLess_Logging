@@ -1,17 +1,15 @@
 @startuml
 'Use of AST - Abstract Syntax Trees for categorizing the code
 
-'caption Figure 3: Generating Abstract Syntax Tree for Assign type AST.
+'caption Figure 3: LogLess Object Model of all the components with respective elements and methods.
 'title AST Generated From Function
 
 object Decorator {
     get_code()
     settrace(tracer)
+    Tracer
 }
 
-object Tracer {
-    trace()
-}
 
 object Formatter {
     event_type: str
@@ -38,9 +36,8 @@ object Output {
 }
 
 
-Decorator --> Tracer
-Tracer <--> Generator
-Generator <-le-> Formatter
+Decorator -ri-> Generator
+Generator <--> Formatter
 Generator -ri-> Output
 
 @enduml

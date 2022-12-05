@@ -3,7 +3,8 @@
 'caption Figure 2.1: Passing each event type of the Source Code through a tracer and log formatter
 'title Sample Lambda Function
 
-+[#Orange] Decorator
+*[#lightgreen]:<font color=blue>logless</font>
+Decorator;
 
 right side 
 
@@ -11,11 +12,13 @@ right side
 ++[#lightblue] tracer
 +++[#lightblue] Formatter
 +++[#lightblue] Generator
-++++[#lightgreen] Log Output
+++++[#Orange] Log Output
 
 left side 
 
-**[#lightgreen]:<code>
+**[#lightGrey]:<font color=blue>@logless</font>
+<code>
+'<color #118888>@logless</color>
 def <function>(*args):
     line...
     line...
