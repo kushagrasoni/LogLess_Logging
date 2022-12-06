@@ -11,7 +11,7 @@ with open('event.json') as f:
 
 context = Context(1)
 
-num_tests = 10
+num_tests = 100
 
 durations = []
 
