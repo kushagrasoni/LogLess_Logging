@@ -1,4 +1,6 @@
 import collections
+import opcode
+
 from logless.profile import Profile
 from conf.config import INFO
 from logless.generator import Generator
@@ -46,7 +48,26 @@ class Tracer:
                     assign_type = 'Updated Variable'
                     p = Profile(event, assign_type, var_name, var_value, INFO)
                     generator.add_profile(p)
-            if event == 'return':
+
+            code_byte = frame.f_code.co_code[frame.f_lasti]
+            if not isinstance(code_byte, int):
+                code_byte = ord(code_byte)
+            ended_by_exception = (
+                    event == 'return'
+                    and arg is None
+                    and (opcode.opname[code_byte]
+                         not in ('RETURN_VALUE', 'YIELD_VALUE'))
+            )
+
+            # Return in case of Call ending in exception
+            if ended_by_exception:
+                self.frame_to_local_result.pop(frame, None)
+                return_value = None
+                assign_type = f'Function "{self.func_name}" Ended with Exception'
+                var_name = ''
+                p = Profile(event, assign_type, var_name, return_value, INFO)
+                generator.add_profile(p)
+            if event == 'return' and not ended_by_exception:
                 self.frame_to_local_result.pop(frame, None)
                 return_value = arg
                 assign_type = f'Function "{self.func_name}" returns'
