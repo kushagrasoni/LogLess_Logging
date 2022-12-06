@@ -1,7 +1,7 @@
 import collections
 from logless.profile import Profile
 from conf.config import INFO
-from logless.generator import LogGenerator
+from logless.generator import Generator
 
 
 class Tracer:
@@ -29,7 +29,7 @@ class Tracer:
 
     # local trace function which returns itself
     def tracer(self, frame, event, arg=None):
-        log_generator = LogGenerator(self.mode)
+        generator = Generator(self.mode)
         function_name = frame.f_code.co_name
         if function_name == self.func_name:
             old_local_reprs = self.frame_to_local_result.get(frame, {})
@@ -40,21 +40,21 @@ class Tracer:
             for var_name, var_value in self.final_result.items():
                 if var_name not in old_local_reprs:
                     p = Profile(event, assign_type, var_name, var_value, INFO)
-                    log_generator.add_profile(p)
+                    generator.add_profile(p)
 
                 elif old_local_reprs[var_name] != var_value:
                     assign_type = 'Updated Variable'
                     p = Profile(event, assign_type, var_name, var_value, INFO)
-                    log_generator.add_profile(p)
+                    generator.add_profile(p)
             if event == 'return':
                 self.frame_to_local_result.pop(frame, None)
                 return_value = arg
                 assign_type = f'Function "{self.func_name}" returns'
                 var_name = ''
                 p = Profile(event, assign_type, var_name, return_value, INFO)
-                log_generator.add_profile(p)
-            log_generator.print_to_terminal()
-            log_generator.log()
+                generator.add_profile(p)
+            generator.print_to_terminal()
+            generator.log()
 
             return self.tracer
         return None

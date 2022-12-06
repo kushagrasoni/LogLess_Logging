@@ -4,7 +4,7 @@ from conf.config import MODE_CONFIG, INFO, ERROR
 from logless.logger import logger
 
 
-class LogGenerator:
+class Generator:
     def __init__(self, mode=None):
         self.profiles = []
         self.mode = mode

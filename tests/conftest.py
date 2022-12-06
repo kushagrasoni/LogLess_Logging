@@ -1,5 +1,5 @@
 import pytest
-from logless.generator import LogGenerator
+from logless.generator import Generator
 
 # register plugins
 pytest_plugins = []
@@ -7,9 +7,9 @@ pytest_plugins = []
 
 # initialize fixture
 @pytest.fixture(scope="function")
-def log_generator():
+def generator():
     """
-    Fixture for the log generator
+    Fixture for the generator
     """
-    log_gen = LogGenerator()
-    return log_gen
+    gen = Generator()
+    return gen
