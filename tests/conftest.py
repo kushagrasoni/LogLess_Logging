@@ -3,7 +3,7 @@ import pytest
 from logless.generator import Generator
 
 # register plugins
-from logless.generator import LogGenerator
+from logless.log_output import LogGenerator
 
 pytest_plugins = []
 

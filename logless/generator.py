@@ -1,12 +1,17 @@
-# from fpdf import FPDF
-from logless.event import Event
-from conf.config import MODE_CONFIG, INFO, ERROR
 from logless.logger import logger
+import os
+
+from conf.config import MODE_CONFIG, INFO
 
 
-class LogGenerator:
-    def __init__(self, mode=None):
-        self.events = []
+class LogEvent:
+    def __init__(self):
+        self.event_type = None
+        self.event_text = None
+        self.type_color_map = {
+            'line': 'white',
+            'call': 'blue'
+        }
         self.color_map = {'black': "\u001b[30m",
                           'red': "\u001b[31m",
                           'green': "\u001b[32m",
@@ -17,68 +22,77 @@ class LogGenerator:
                           'white': "\u001b[37m",
                           'none': ''
                           }
-        self.mode = mode
-        self.mode_config = self.get_mode_config()
+
+    def generate(self, event_type, event_text):
+        self.event_type = event_type
+        self.event_text = event_text
+
+    def color_code(self):
+        return self.color_map[self.type_color_map[self.event_type]]
+
+    def __str__(self):
+        return f'{self.color_code()}{self.event_text}'
+
+
+class SetColor():
+    def __init__(self, text, color='none'):
+        self.text = text
+        self.color = color
+        self.color_map = {'black': "\u001b[30m",
+                          'red': "\u001b[31m",
+                          'green': "\u001b[32m",
+                          'yellow': "\u001b[33m",
+                          'blue': "\u001b[34m",
+                          'magenta': "\u001b[35m",
+                          'cyan': "\u001b[36m",
+                          'white': "\u001b[37m",
+                          'none': ''
+                          }
+
+    def color_code(self):
+        return self.color_map[self.color]
+
+    def __str__(self):
+        return f'{self.color_code()}{self.text}'
+
+
+class Generator:
+    def __init__(self):
+        """
+        Constructor method
+        """
         self.logger = logger
+        self.mode_config = self.get_mode_config()
 
-    def wrap_color(self, text, color):
-        return f'{self.color_map[color]}{text}\u001b[0m'
+    def log(self, event, assign_type, var_name, var_value, level):
+        """
+        Branches into the respective log level method based on the verbosity
+        """
+        if level == INFO and INFO in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
+            self.log_info(event, assign_type, var_name, var_value)
 
-    def with_colors(self, event):
-        event_type = self.wrap_color(event.event_type, "blue")
-        assign_type = self.wrap_color(event.assign_type, "yellow")
-        var_name = self.wrap_color(event.var_name, "magenta")
-        var_value = self.wrap_color(event.var_value, "green")
-
-        event_str = f'{event_type} {assign_type} {var_name}'
-
+    def log_info(self, event, assign_type, var_name, var_value):
+        logging_statement = f'{event}, {assign_type}, {var_name}'
         if self.mode_config.get("LOG_VALUES"):
-            event_str += f' with value = {var_value}'
-        return event_str
+            logging_statement += f', {var_value}'
+        self.logger.info(logging_statement)
 
-    def without_colors(self, event):
-        event_str = f'{event.event_type} {event.assign_type} {event.var_name}'
+    def log_error(self, pattern):
+        # TODO
+        msg = ""
+        self.logger.error(msg)
 
-        if self.mode_config.get("LOG_VALUES"):
-            event_str += f' with value = {event.var_value}'
+    # Add remaining verbosity methods
 
-        return event_str
+    """ STATIC METHODS """
 
-    def add_event(self, event: Event):
-        self.events.append(event)
-
-    def print_to_terminal(self):
-        for event in self.events:
-            print(self.with_colors(event))
-
-    def print_to_txt(self):
-        with open('logless.txt', 'a') as f:
-            for event in self.events:
-                f.write(f'{self.without_colors(event)}\n')
-
-    def log(self):
-        for event in self.events:
-            if event.level in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
-                if event.level == INFO:
-                    self.logger.info(self.with_colors(event))
-                elif event.level == ERROR:
-                    self.logger.error(self.without_colors(event))
-
-    # still in progress
-    # def print_to_pdf(self):
-    #     pdf = FPDF()
-    #     pdf.add_page()
-    #     pdf.set_font("Arial", size=20)
-    #     pdf.cell(200, 10, txt="LogLess", ln=1, align='C')
-    #     pdf.output("logless.pdf")
-
-    def get_mode_config(self):
+    @staticmethod
+    def get_mode_config():
         """
         Utility function to get environment mode configurations based on environment setting
         """
         # extract environment mode configurations
-        # mode_config = MODE_CONFIG.get(os.getenv("LOGGING_MODE"))
-        mode_config = MODE_CONFIG.get(self.mode)
+        mode_config = MODE_CONFIG.get(os.getenv("LOGGING_MODE"))
         if not mode_config:
             # if env var not set correctly, set safe mode as the default
             mode_config = MODE_CONFIG.get("SAFE")
