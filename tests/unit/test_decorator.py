@@ -18,3 +18,11 @@ class TestDecorator:
             mock_settrace.assert_called_once_with(Tracer().tracer)
 
         test_function()
+
+    def test_log(self):
+
+        def test_function():
+            pass
+
+        actual_function = log(test_function)
+        assert callable(actual_function)

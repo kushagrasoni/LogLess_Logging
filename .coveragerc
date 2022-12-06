@@ -1,0 +1,8 @@
+# .coveragerc to control coverage.py
+[run]
+source = logless
+omit =
+        logless/__init__.py
+        logless/__main__.py
+branch = True
+dynamic_context = test_function
