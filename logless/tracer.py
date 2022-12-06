@@ -1,7 +1,7 @@
 import collections
 from logless.event import Event
 from conf.config import INFO
-from logless.log_output import LogGenerator
+from logless.generator import LogGenerator
 
 
 class Tracer:
