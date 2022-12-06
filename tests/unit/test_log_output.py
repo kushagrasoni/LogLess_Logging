@@ -1,4 +1,4 @@
-from logless.event import Event
+from logless.profile import Profile
 
 
 class TestLogOutput:
@@ -7,9 +7,9 @@ class TestLogOutput:
     """
 
     # setup
-    event1 = Event('line', 'Initializing Variable', 'var', 'ABC', 'INFO')
-    event2 = Event('call', 'Starting Variable', 'start', '123', 'INFO')
-    event3 = Event('line', 'Updated Variable', 'var', 'XYZ', 'INFO')
+    event1 = Profile('line', 'Initializing Variable', 'var', 'ABC', 'INFO')
+    event2 = Profile('call', 'Starting Variable', 'start', '123', 'INFO')
+    event3 = Profile('line', 'Updated Variable', 'var', 'XYZ', 'INFO')
 
     def test_add_event_single(self, log_generator):
         """

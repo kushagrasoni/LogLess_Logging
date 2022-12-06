@@ -1,7 +1,7 @@
 import collections
-from logless.event import Event
+from logless.profile import Profile
 from conf.config import INFO
-from logless.log_output import LogGenerator
+from logless.generator import LogGenerator
 
 
 class Tracer:
@@ -39,20 +39,20 @@ class Tracer:
                            'Initializing Variable')
             for var_name, var_value in self.final_result.items():
                 if var_name not in old_local_reprs:
-                    e = Event(event, assign_type, var_name, var_value, INFO)
-                    log_generator.add_event(e)
+                    p = Profile(event, assign_type, var_name, var_value, INFO)
+                    log_generator.add_profile(p)
 
                 elif old_local_reprs[var_name] != var_value:
                     assign_type = 'Updated Variable'
-                    e = Event(event, assign_type, var_name, var_value, INFO)
-                    log_generator.add_event(e)
+                    p = Profile(event, assign_type, var_name, var_value, INFO)
+                    log_generator.add_profile(p)
             if event == 'return':
                 self.frame_to_local_result.pop(frame, None)
                 return_value = arg
                 assign_type = f'Function "{self.func_name}" returns'
                 var_name = ''
-                e = Event(event, assign_type, var_name, return_value, INFO)
-                log_generator.add_event(e)
+                p = Profile(event, assign_type, var_name, return_value, INFO)
+                log_generator.add_profile(p)
             log_generator.print_to_terminal()
             log_generator.log()
 

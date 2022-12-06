@@ -1,24 +1,11 @@
 import pytest
-
-from logless.generator import Generator
+from logless.generator import LogGenerator
 
 # register plugins
-from logless.log_output import LogGenerator
-
 pytest_plugins = []
 
 
-# initialize fixtures
-@pytest.fixture(scope="session")
-def generator():
-    """
-    Fixture for the log generator
-    """
-    gen = Generator()
-    return gen
-
-
-# initialize fixtur
+# initialize fixture
 @pytest.fixture(scope="function")
 def log_generator():
     """
