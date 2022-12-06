@@ -1,12 +1,12 @@
 # from fpdf import FPDF
-from logless.event import Event
+from logless.profile import Profile
 from conf.config import MODE_CONFIG, INFO, ERROR
 from logless.logger import logger
 
 
 class LogGenerator:
     def __init__(self, mode=None):
-        self.events = []
+        self.profiles = []
         self.color_map = {'black': "\u001b[30m",
                           'red': "\u001b[31m",
                           'green': "\u001b[32m",
@@ -21,48 +21,49 @@ class LogGenerator:
         self.mode_config = self.get_mode_config()
         self.logger = logger
 
+#formatter
     def wrap_color(self, text, color):
         return f'{self.color_map[color]}{text}\u001b[0m'
+#formatter
+    def with_colors(self, profile):
+        event_type = self.wrap_color(profile.event_type, "blue")
+        assign_type = self.wrap_color(profile.assign_type, "yellow")
+        var_name = self.wrap_color(profile.var_name, "magenta")
+        var_value = self.wrap_color(profile.var_value, "green")
 
-    def with_colors(self, event):
-        event_type = self.wrap_color(event.event_type, "blue")
-        assign_type = self.wrap_color(event.assign_type, "yellow")
-        var_name = self.wrap_color(event.var_name, "magenta")
-        var_value = self.wrap_color(event.var_value, "green")
-
-        event_str = f'{event_type} {assign_type} {var_name}'
-
-        if self.mode_config.get("LOG_VALUES"):
-            event_str += f' with value = {var_value}'
-        return event_str
-
-    def without_colors(self, event):
-        event_str = f'{event.event_type} {event.assign_type} {event.var_name}'
+        profile_str = f'{event_type} {assign_type} {var_name}'
 
         if self.mode_config.get("LOG_VALUES"):
-            event_str += f' with value = {event.var_value}'
+            profile_str += f' with value = {var_value}'
+        return profile_str
+#formatter
+    def without_colors(self, profile):
+        profile_str = f'{profile.event_type} {profile.assign_type} {profile.var_name}'
 
-        return event_str
+        if self.mode_config.get("LOG_VALUES"):
+            profile_str += f' with value = {profile.var_value}'
 
-    def add_event(self, event: Event):
-        self.events.append(event)
+        return profile_str
+
+    def add_profile(self, profile: Profile):
+        self.profiles.append(profile)
 
     def print_to_terminal(self):
-        for event in self.events:
-            print(self.with_colors(event))
+        for profile in self.profiles:
+            print(self.with_colors(profile))
 
     def print_to_txt(self):
         with open('logless.txt', 'a') as f:
-            for event in self.events:
-                f.write(f'{self.without_colors(event)}\n')
+            for profile in self.profiles:
+                f.write(f'{self.without_colors(profile)}\n')
 
     def log(self):
-        for event in self.events:
-            if event.level in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
-                if event.level == INFO:
-                    self.logger.info(self.with_colors(event))
-                elif event.level == ERROR:
-                    self.logger.error(self.without_colors(event))
+        for profile in self.profiles:
+            if profile.level in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
+                if profile.level == INFO:
+                    self.logger.info(self.with_colors(profile))
+                elif profile.level == ERROR:
+                    self.logger.error(self.without_colors(profile))
 
     # still in progress
     # def print_to_pdf(self):

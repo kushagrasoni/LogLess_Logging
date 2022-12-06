@@ -1,4 +1,4 @@
-from logless.event import Event
+from logless.profile import Event
 
 
 class TestLogOutput:
