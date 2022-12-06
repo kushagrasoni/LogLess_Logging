@@ -4,7 +4,7 @@ from conf.config import MODE_CONFIG, INFO
 from dataclasses import dataclass
 
 @dataclass
-class Profile:
+class Event:
     event_type: str
     assign_type: str
     var_name: str
