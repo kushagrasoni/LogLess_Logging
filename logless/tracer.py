@@ -5,7 +5,6 @@ from logless.profile import Profile
 from conf.config import INFO
 from logless.generator import Generator
 
-
 class Tracer:
     def __init__(self, func_name, mode=None):
         self.final_result = collections.OrderedDict()
@@ -13,6 +12,9 @@ class Tracer:
         self.func_name = func_name
         self.mode = mode
         # generator = Generator()
+        # clear temporary file used to store session logs
+        with open("logless_temp.txt","w") as f:
+            f.write('')
 
     @staticmethod
     def get_local_result(frame):
@@ -76,6 +78,7 @@ class Tracer:
                 generator.add_profile(p)
             generator.print_to_terminal()
             generator.log()
+            generator.print_to_pdf()
 
             return self.tracer
         return None
