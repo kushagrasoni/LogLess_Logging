@@ -2,8 +2,6 @@
 import logging
 
 # Create and configure logger
-logging.basicConfig(filename="app.log",
-                    format='%(asctime)s | %(levelname)s | %(message)s\n',
-                    filemode='w')
+logging.basicConfig(format='%(asctime)s | %(levelname)s | %(message)s\n')
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
