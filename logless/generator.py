@@ -18,8 +18,8 @@ class Generator:
         for profile in self.profiles:
             print(profile.with_colors(self.mode_config.get("LOG_VALUES")))
 
-    def print_to_txt(self):
-        with open('logless.txt', 'a') as f:
+    def print_to_txt(self, filename):
+        with open(filename, 'a') as f:
             for profile in self.profiles:
                 f.write(f'{profile.without_colors(self.mode_config.get("LOG_VALUES"))}\n')
 

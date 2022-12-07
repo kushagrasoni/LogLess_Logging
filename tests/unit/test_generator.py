@@ -1,6 +1,7 @@
 import os
 
-from conf.config import MODE_CONFIG, INFO
+from conf.config import MODE_CONFIG
+from logless.profile import Profile
 
 
 class TestGenerator:
@@ -8,17 +9,55 @@ class TestGenerator:
     Testing suite for the Generator class
     """
 
-    event_type = "test event type"
-    assign_type = "test assign type"
-    var_name = "test var name"
-    var_value = "test var value"
-    level = INFO
+    # setup
+
+    def test_add_profile_single(self, generator, profile1):
+        """
+        Tests add single profile to the generator
+        """
+        expected_profiles_list = [profile1]
+
+        generator.add_profile(profile1)
+
+        assert expected_profiles_list == generator.profiles
+
+    def test_add_profile_multiple(self, generator, profile1, profile2, profile3):
+        """
+        Tests add multiple profiles to the generator
+        """
+        expected_profiles_list = [profile1, profile2, profile3]
+
+        generator.add_profile(profile1)
+        generator.add_profile(profile2)
+        generator.add_profile(profile3)
+
+        assert expected_profiles_list == generator.profiles
+
+    def test_print_to_terminal(self, mocker, generator, profile1):
+        """
+        Tests that the print function is invoked for print to terminal with a single profile
+        """
+        mock_print = mocker.patch('logless.generator.print')
+        generator.add_profile(profile1)
+
+        generator.print_to_terminal()
+
+        mock_print.assert_called_once_with(profile1.with_colors(generator.mode_config.get("LOG_VALUES")))
+
+    def test_print_to_terminal_no_profile(self, mocker, generator):
+        """
+        Tests that the print function is not called for print to terminal for no profiles
+        """
+        mock_print = mocker.patch('logless.generator.print')
+
+        generator.print_to_terminal()
+
+        mock_print.assert_not_called()
 
     def test_get_mode_config_not_set(self, generator):
         """
         Tests getting logging mode configurations without prior setting
         """
-        os.environ["LOGGING_MODE"] = ""
         expected_mode_config = MODE_CONFIG.get("SAFE")
         actual_mode_config = generator.get_mode_config()
         assert expected_mode_config == actual_mode_config
@@ -27,23 +66,31 @@ class TestGenerator:
         """
         Tests getting logging mode configurations with predefined setting
         """
-        os.environ["LOGGING_MODE"] = "DEV"
+        generator.mode = "DEV"
         expected_mode_config = MODE_CONFIG.get("DEV")
         actual_mode_config = generator.get_mode_config()
         assert expected_mode_config == actual_mode_config
 
-    def test_log(self, generator, mocker):
-        mock_log_info = mocker.patch.object(generator, "log_info")
-        generator.log(self.event_type, self.assign_type, self.var_name, self.var_value, self.level)
-        mock_log_info.assert_called_once_with(self.event_type, self.assign_type, self.var_name, self.var_value)
+    def test_print_to_txt(self, generator, profile1):
+        filename = 'test_file.txt'
+        try:
+            generator.add_profile(profile1)
+            generator.print_to_txt(filename)
+            with open(filename, 'r') as f:
+                line = f.readline()
+                assert line != ""
+            f.close()
+        finally:
+            os.remove(filename)
 
-    def test_log_unsupported(self, generator, mocker):
-        mock_log_info = mocker.patch.object(generator, "log_info")
-        generator.log(self.event_type, self.assign_type, self.var_name, self.var_value, "UNSUPPORTED")
-        mock_log_info.assert_not_called()
-
-    def test_log_info_with_values(self, generator, mocker):
+    def test_log(self, mocker, generator, profile1):
         mock_logger = mocker.patch.object(generator, "logger")
-        generator.log_info(self.event_type, self.assign_type, self.var_name, self.var_value)
-        mock_logger.info.assert_called_once_with(f"{self.event_type}, {self.assign_type}, {self.var_name}, "
-                                                 f"{self.var_value}")
+        generator.add_profile(profile1)
+        generator.log()
+        mock_logger.info.assert_called_once_with(profile1.with_colors(generator.mode_config.get("LOG_VALUES")))
+
+    def test_log_unsupported(self, mocker, generator, profile2):
+        mock_logger = mocker.patch.object(generator, "logger")
+        generator.add_profile(profile2)
+        generator.log()
+        mock_logger.assert_not_called()
