@@ -72,7 +72,11 @@ class Generator:
                 pdf.ln()
         
         # save pdf file with current state
-        pdf.output("logless.pdf")   
+        pdf.output("logless.pdf") 
+
+        #file name and file path version 
+        #pdf.output(name = f'{self.file_path}/{self.file_name}.pdf', dest='F') 
+          
 
 
     def get_mode_config(self):
