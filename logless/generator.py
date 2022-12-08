@@ -41,9 +41,10 @@ class Generator:
         # open temporary file in append mode to store this session's logs
         with open("logless.txt","a") as session_state:
             for profile in self.profiles:
-                profile_dict = profile.profile_to_dict(self.mode_config.get("LOG_VALUES"))
-                # write each profile_dict object as a new line in the temp file
-                session_state.write(json.dumps(profile_dict) + '\n')
+                if profile.level in self.mode_config.get("SUPPORTED_LOG_LEVELS") and self.allow_event_by_frequency(profile.event_type):
+                    profile_dict = profile.profile_to_dict(self.mode_config.get("LOG_VALUES"))
+                    # write each profile_dict object as a new line in the temp file
+                    session_state.write(json.dumps(profile_dict) + '\n')
 
         # re-open temporary file in read mode
         # reads the profile_dicts written above, 
