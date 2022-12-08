@@ -15,9 +15,8 @@ class Tracer:
         self.frame_to_local_result = {}
         self.func_name = func_name
         self.mode = mode
-        # generator = Generator()
         # clear temporary file used to store session logs
-        with open("logless_temp.txt","w") as f:
+        with open("logless.txt","w") as f:
             f.write('')
         self.file_type = file_type
 
@@ -77,7 +76,7 @@ class Tracer:
             if self.file_type == 'txt':
                 generator.log()
             elif self.file_type == 'pdf':
-                generator.log()
+                generator.print_to_pdf()
             else:
                 generator.log()
 

@@ -36,7 +36,7 @@ class Generator:
 
     def print_to_pdf(self):
         # open temporary file in append mode to store this session's logs
-        with open("logless_temp.txt","a") as session_state:
+        with open("logless.txt","a") as session_state:
             for profile in self.profiles:
                 profile_dict = profile.profile_to_dict(self.mode_config.get("LOG_VALUES"))
                 # write each profile_dict object as a new line in the temp file
@@ -53,7 +53,7 @@ class Generator:
         pdf.cell(200, 10, txt="LogLess", ln=1, align='C')
 
         # read all profiles from temporary session state
-        with open("logless_temp.txt","r") as session_state:
+        with open("logless.txt","r") as session_state:
             lines = session_state.readlines()
             profile_dicts = [json.loads(x) for x in lines]
             for profile_dict in profile_dicts:
