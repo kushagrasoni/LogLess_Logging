@@ -2,11 +2,11 @@ import sys
 
 import requests
 
-sys.path.append('..')
+sys.path.append('../../..')
 import logless
 
 
-@logless.log(file_type='pdf')
+@logless.log()
 def lambda_handler(event, context):
     session = requests.Session()
 

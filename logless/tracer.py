@@ -9,13 +9,15 @@ from logless.generator import Generator
 from conf.config import MAXIMUM_VARIABLE_LEN
 from logless.utils import get_local_result
 
-
 class Tracer:
     def __init__(self, func_name, mode=None, file_type=None):
         self.final_result = collections.OrderedDict()
         self.frame_to_local_result = {}
         self.func_name = func_name
         self.mode = mode
+        # clear temporary file used to store session logs
+        with open("logless.txt","w") as f:
+            f.write('')
         self.file_type = file_type
 
     # Trace function which returns itself
@@ -74,7 +76,7 @@ class Tracer:
             if self.file_type == 'txt':
                 generator.log()
             elif self.file_type == 'pdf':
-                generator.log()
+                generator.print_to_pdf()
             else:
                 generator.log()
 
