@@ -31,9 +31,10 @@ class LogLess:
         self.file_name = file_name
 
     def __call__(self, class_or_function):
-
+        print(self.file_name)
         # Update the logger to add file handler in case the file_type = 'txt' or 'pdf' is passed
         if self.file_type == 'txt':
+            # logger = logging.getLogger('logless_logger')
             file_handler = logging.FileHandler(f'{self.file_path}/{self.file_name}.log', mode='w')
             logger.addHandler(file_handler)
 

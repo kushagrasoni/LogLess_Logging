@@ -6,7 +6,7 @@ sys.path.append('..')
 import logless
 
 
-@logless.log(file_name='my_log')
+@logless.log()
 def lambda_function(event, context):
     api_url = "https://jsonplaceholder.typicode.com/todos"
     response = requests.post(api_url, json=event)
