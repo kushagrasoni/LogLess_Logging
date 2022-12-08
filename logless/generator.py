@@ -1,16 +1,17 @@
 from fpdf import FPDF
 from logless.profile import Profile
 from conf.config import MODE_CONFIG, INFO, ERROR
-from logless.logger import logger
 import json
+from logless import logger
 
 
 class Generator:
-    def __init__(self, mode=None):
+    def __init__(self, mode=None, file_type=None):
         self.profiles = []
-        self.mode = mode
-        self.mode_config = self.get_mode_config()
         self.logger = logger
+        self.mode = mode
+        self.file_type = file_type
+        self.mode_config = self.get_mode_config()
 
     def add_profile(self, profile: Profile):
         self.profiles.append(profile)

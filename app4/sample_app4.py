@@ -63,7 +63,7 @@ class Lock(object):
         self.OnLockBroken -= objMethod
 
 
-@logless.log()
+@logless.log(file_type='txt')
 def Simulation(event, context):
     # In the simulation we have a lock
     # which will be broken and the object of Police

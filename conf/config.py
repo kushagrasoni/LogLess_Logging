@@ -45,3 +45,5 @@ MODE_CONFIG = {
         "FREQUENCY": 1
     }
 }
+
+MAXIMUM_VARIABLE_LEN = 100

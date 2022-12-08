@@ -1,9 +1,10 @@
 import functools
 import inspect
+import logging
 import os
 from sys import settrace
-
 from logless.tracer import Tracer
+from logless import logger
 
 DISABLED = bool(os.getenv('DISABLE_LOGLESS', ''))
 
@@ -23,10 +24,19 @@ class LogLess:
     return: The output of the function (if any)
     """
 
-    def __init__(self, mode=None):
+    def __init__(self, mode=None, file_type=None, file_path='.', file_name='app'):
         self.mode = mode
+        self.file_type = file_type
+        self.file_path = file_path
+        self.file_name = file_name
 
     def __call__(self, class_or_function):
+
+        # Update the logger to add file handler in case the file_type = 'txt' or 'pdf' is passed
+        if self.file_type == 'txt':
+            file_handler = logging.FileHandler(f'{self.file_path}/{self.file_name}.log', mode='w')
+            logger.addHandler(file_handler)
+
         if DISABLED:
             return class_or_function
 
@@ -48,7 +58,7 @@ class LogLess:
         return: Returns itself
         """
         func_name = function.__name__
-        trace = Tracer(func_name, self.mode)
+        trace = Tracer(func_name, self.mode, self.file_type)
 
         @functools.wraps(function)
         def wrapper(*args, **kwargs):
