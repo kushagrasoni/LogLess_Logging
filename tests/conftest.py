@@ -1,6 +1,6 @@
 import pytest
 
-from conf.config import INFO
+from conf.config import INFO, ERROR
 from logless.generator import Generator
 from logless.profile import Profile
 
@@ -39,4 +39,4 @@ def profile3():
     """
     Fixture for profile 3
     """
-    return Profile('line', 'Updated Variable', 'var', 'XYZ', INFO)
+    return Profile('line', 'Updated Variable', 'var', 'XYZ', ERROR)
