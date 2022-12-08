@@ -1,10 +1,10 @@
 import functools
 import inspect
-import logging
 import os
 from sys import settrace
+import logging
+from logless import file_logger, formatter
 from logless.tracer import Tracer
-from logless import logger
 
 DISABLED = bool(os.getenv('DISABLE_LOGLESS', ''))
 
@@ -31,12 +31,21 @@ class LogLess:
         self.file_name = file_name
 
     def __call__(self, class_or_function):
-        print(self.file_name)
-        # Update the logger to add file handler in case the file_type = 'txt' or 'pdf' is passed
-        if self.file_type == 'txt':
-            # logger = logging.getLogger('logless_logger')
-            file_handler = logging.FileHandler(f'{self.file_path}/{self.file_name}.log', mode='w')
-            logger.addHandler(file_handler)
+        if self.file_type in ('log', 'txt'):
+            # create file handler
+            file_handler = logging.FileHandler(f'{self.file_path}/{self.file_name}.{self.file_type}', mode='w')
+
+            # add formatter to console handler
+            file_handler.setFormatter(formatter)
+
+            # add file handler to logger
+            file_logger.addHandler(file_handler)
+
+            # Configure configure File logger
+            file_logger.setLevel(logging.INFO)
+
+            # Turn off Hierarchy Propagation
+            file_logger.propagate = False
 
         if DISABLED:
             return class_or_function
@@ -59,7 +68,7 @@ class LogLess:
         return: Returns itself
         """
         func_name = function.__name__
-        trace = Tracer(func_name, self.mode, self.file_type)
+        trace = Tracer(func_name, self.mode, self.file_type, self.file_path, self.file_name)
 
         @functools.wraps(function)
         def wrapper(*args, **kwargs):

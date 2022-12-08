@@ -1,20 +1,26 @@
 # importing module
 import logging
 
-# Create and configure logger
-# formatter = logging.basicConfig(format='%(asctime)s | %(levelname)s | %(message)s\n')
-logger = logging.getLogger('logless_logger')
-logger.setLevel(logging.DEBUG)
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s: %(levelname)s - %(message)s\n')
+
+# Create and configure Console Logger
+console_logger = logging.getLogger('logless_console_log')
 
 # create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
 
-# create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# add formatter to console handler
+console_handler.setFormatter(formatter)
+# add console handler to logger
+console_logger.addHandler(console_handler)
 
-# add formatter to ch
-ch.setFormatter(formatter)
+# Turn off Hierarchy Propagation
+console_logger.propagate = False
 
-# add ch to logger
-logger.addHandler(ch)
+# Create and configure File Logger
+file_logger = logging.getLogger('logless_file_log')
+
+
+

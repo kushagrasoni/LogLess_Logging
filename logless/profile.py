@@ -27,17 +27,17 @@ class Profile:
         var_name = self.wrap_color(self.var_name, "magenta")
         var_value = self.wrap_color(self.var_value, "green")
 
-        event_str = f'{event_type} {assign_type} {var_name}'
+        event_str = f'{event_type} ==> {assign_type} "{var_name}"'
 
         if log_values:
-            event_str += f' with value = {var_value}'
+            event_str += f' with value = "{var_value}"'
         return event_str
 
     def without_colors(self, log_values):
-        event_str = f'{self.event_type} {self.assign_type} {self.var_name}'
+        event_str = f'{self.event_type} ==> {self.assign_type} "{self.var_name}"'
 
         if log_values:
-            event_str += f' with value = {self.var_value}'
+            event_str += f' with value = "{self.var_value}"'
 
         return event_str
     
@@ -45,11 +45,11 @@ class Profile:
         p_dict = {
             'event_type': str(self.event_type),
             'assign_type': str(self.assign_type),
-            'var_name': str(self.var_name),
-            'var_value':''
+            'var_name': f'"{str(self.var_name)}"',
+            'var_value': ''
         }
         if log_values:
-            p_dict['var_value'] = f' with value = {self.var_value}'
+            p_dict['var_value'] = f' with value = "{self.var_value}"'
         return p_dict 
 
 
