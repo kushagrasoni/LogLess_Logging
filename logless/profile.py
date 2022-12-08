@@ -40,6 +40,17 @@ class Profile:
             event_str += f' with value = {self.var_value}'
 
         return event_str
+    
+    def profile_to_dict(self, log_values):
+        p_dict = {
+            'event_type': str(self.event_type),
+            'assign_type': str(self.assign_type),
+            'var_name': str(self.var_name),
+            'var_value':''
+        }
+        if log_values:
+            p_dict['var_value'] = f' with value = {self.var_value}'
+        return p_dict 
 
 
 
