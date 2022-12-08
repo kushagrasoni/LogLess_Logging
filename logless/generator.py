@@ -1,15 +1,16 @@
 # from fpdf import FPDF
 from logless.profile import Profile
 from conf.config import MODE_CONFIG, INFO, ERROR
-from logless.logger import logger
+from logless import logger
 
 
 class Generator:
-    def __init__(self, mode=None):
+    def __init__(self, mode=None, file_type=None):
         self.profiles = []
-        self.mode = mode
-        self.mode_config = self.get_mode_config()
         self.logger = logger
+        self.mode = mode
+        self.file_type = file_type
+        self.mode_config = self.get_mode_config()
         self.low_frequency = ["exception", "line"]
         self.medium_frequency = ["exception", "line", "return"]
         self.high_frequency = ["exception", "line", "return", "call"]
