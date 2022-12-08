@@ -1,8 +1,0 @@
-{"event_type": "call", "assign_type": "Starting Variable", "var_name": "event", "var_value": ""}
-{"event_type": "call", "assign_type": "Starting Variable", "var_name": "context", "var_value": ""}
-{"event_type": "line", "assign_type": "Initializing Variable", "var_name": "session", "var_value": ""}
-{"event_type": "line", "assign_type": "Initializing Variable", "var_name": "url", "var_value": ""}
-{"event_type": "line", "assign_type": "Initializing Variable", "var_name": "access_token", "var_value": ""}
-{"event_type": "line", "assign_type": "Initializing Variable", "var_name": "r1", "var_value": ""}
-{"event_type": "line", "assign_type": "Initializing Variable", "var_name": "r2", "var_value": ""}
-{"event_type": "return", "assign_type": "Function \"lambda_handler\" returns", "var_name": "", "var_value": ""}
