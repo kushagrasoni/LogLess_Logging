@@ -5,6 +5,11 @@ import requests
 sys.path.append('../../..')
 import logless
 
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.ERROR)
+
 
 @logless.log()
 def lambda_function(event, context):
