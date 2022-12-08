@@ -11,6 +11,9 @@ class Generator:
         self.mode = mode
         self.file_type = file_type
         self.mode_config = self.get_mode_config()
+        self.low_frequency = ["exception", "line"]
+        self.medium_frequency = ["exception", "line", "return"]
+        self.high_frequency = ["exception", "line", "return", "call"]
 
     def add_profile(self, profile: Profile):
         self.profiles.append(profile)
@@ -26,7 +29,7 @@ class Generator:
 
     def log(self):
         for profile in self.profiles:
-            if profile.level in self.mode_config.get("SUPPORTED_LOG_LEVELS"):
+            if profile.level in self.mode_config.get("SUPPORTED_LOG_LEVELS") and self.allow_event_by_frequency(profile.event_type):
                 if profile.level == INFO:
                     self.logger.info(profile.with_colors(self.mode_config.get("LOG_VALUES")))
                 elif profile.level == ERROR:
@@ -52,3 +55,18 @@ class Generator:
             mode_config = MODE_CONFIG.get("SAFE")
         # print("Mode config selected: ", mode_config)
         return mode_config
+
+    def allow_event_by_frequency(self, event_type) -> bool:
+        """
+        Checks if the tracing event type is supported in the frequency category, which is determined by the configured
+        frequency value
+        """
+        frequency_value = self.mode_config.get("FREQUENCY")
+        if not frequency_value or frequency_value not in [1, 2, 3]:
+            frequency_value = 1
+        if frequency_value == 1:
+            return event_type in self.low_frequency
+        elif frequency_value == 2:
+            return event_type in self.medium_frequency
+        elif frequency_value == 3:
+            return event_type in self.high_frequency
