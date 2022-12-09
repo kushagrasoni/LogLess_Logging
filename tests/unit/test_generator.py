@@ -84,13 +84,31 @@ class TestGenerator:
             os.remove(filename)
 
     def test_log(self, mocker, generator, profile1):
-        mock_logger = mocker.patch.object(generator, "logger")
+        mock_logger = mocker.patch.object(generator, "console_logger")
         generator.add_profile(profile1)
         generator.log()
         mock_logger.info.assert_called_once_with(profile1.with_colors(generator.mode_config.get("LOG_VALUES")))
 
     def test_log_unsupported(self, mocker, generator, profile2):
-        mock_logger = mocker.patch.object(generator, "logger")
+        mock_logger = mocker.patch.object(generator, "console_logger")
         generator.add_profile(profile2)
         generator.log()
         mock_logger.assert_not_called()
+
+    def test_log_error(self, mocker, generator, profile3):
+        mock_logger = mocker.patch.object(generator, "console_logger")
+        generator.add_profile(profile3)
+        generator.log()
+        mock_logger.error.assert_called_once_with(profile3.without_colors(generator.mode_config.get("LOG_VALUES")))
+
+    def test_allow_event_by_frequency_exists_and_prod(self, generator):
+        generator.mode_config = MODE_CONFIG.get("PROD")
+        assert generator.allow_event_by_frequency("line")
+
+    def test_allow_event_by_frequency_exists_and_dev(self, generator):
+        generator.mode_config = MODE_CONFIG.get("DEV")
+        assert generator.allow_event_by_frequency("call")
+
+    def test_allow_event_by_frequency_not_exists(self, generator):
+        generator.mode_config = {"FREQUENCY": None}
+        assert not generator.allow_event_by_frequency("return")
