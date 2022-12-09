@@ -42,6 +42,28 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
+## LogLess Usage
+
+LogLess provides a set of sample lambda applications that can be tested locally. Each application has been applied with the the logless decorator and predefined configurations. In order to the test the existing applications without custom configurations, follow the steps below:
+
+1. Change directory into the application of interest
+```
+cd {appX}
+```
+- Substitute {appX} with the name of an application directory (For example: ```app1``` to test the application in the app1 directory)
+
+2. Run the following command
+```
+python-lambda-local -f {name_of_function} {name_of_app_file} {name_of_event_file}
+```
+- Substitute {name_of_function} with the name of the application function in that directory (For example: ```lambda_handler```)
+
+- Substitute {name_of_app_file} with the name of the application file (For example: ```sample_app1.py```)
+
+- Substitute {name_of_event_file} with the name of the event json file (For example: ```event.json```)
+
+If you want to customize the configurations for an application under test, the decorator can be updated to accept from a set of arguments. Reference the decorator function for the details on the arguments.
+
 ## Automated Testing
 
 Execute the testing suite.
@@ -60,28 +82,6 @@ coverage run -m pytest -v tests
 coverage html
 ```
 3. Open the `htmlcov/index.html` file in a browser to view the results.
-
-## Application Testing
-
-LogLess provides a set of sample lambda applications that can be tested locally. Each application has been applied with the the logless decorator and predefined configurations. In order to the test the existing applications without custom configurations, follow the steps below:
-
-1. Change directory into the application of interest
-```
-cd app{X}
-```
-- Replace {X} with an integer (For example: app1 to test the application in the app1 directory)
-
-2. Run the following command
-```
-python-lambda-local -f {name_of_function} {name_of_app_file} {name_of_event_file}
-```
-- Substitute {name_of_function} with the name of the application function in that directory (For example: lambda_handler)
-
-- Substitute {name_of_app_file} with the name of the application file (For example: sample_app1.py)
-
-- Substitute {name_of_event_file} with the name of the event json file (For example: event.json)
-
-If you want to customize the configurations for an application under test, the decorator can be updated to accept from a set of arguments. Reference the decorator function for the details on the arguments.
 
 ## Citations
 
