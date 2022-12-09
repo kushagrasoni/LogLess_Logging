@@ -3,10 +3,10 @@ import sys
 import requests
 
 sys.path.append('..')
-import logless
+# from logless import log
 
 
-@logless.log()
+# @log
 def lambda_function(event, context):
     api_url = "https://jsonplaceholder.typicode.com/todos"
     response = requests.post(api_url, json=event)

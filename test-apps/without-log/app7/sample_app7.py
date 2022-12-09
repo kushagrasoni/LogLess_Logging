@@ -3,10 +3,7 @@ import sys
 import requests
 
 sys.path.append('..')
-import logless
 
-
-@logless.log(file_type='txt', file_name='my_log')
 def lambda_handler(event, context):
     session = requests.Session()
 
@@ -16,7 +13,7 @@ def lambda_handler(event, context):
         'Authorization': 'Bearer {access_token}'
     }
 
-    session.headers.update(access_token)
+    session.header.update(access_token)
 
     r1 = session.get(url)
     r2 = session.get(url)

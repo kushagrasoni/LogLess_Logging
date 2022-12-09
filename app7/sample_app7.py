@@ -6,7 +6,7 @@ sys.path.append('..')
 import logless
 
 
-@logless.log(mode='DEV', file_type='txt')
+@logless.log(mode='DEV', file_type='pdf')
 def lambda_handler(event, context):
     session = requests.Session()
 

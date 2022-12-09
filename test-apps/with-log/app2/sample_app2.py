@@ -6,7 +6,7 @@ invocation.
 """
 import sys
 
-sys.path.append('..')
+sys.path.append('../../..')
 import logless
 
 import logging
@@ -15,7 +15,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-@logless.log(mode='DEV', file_type='log')
+@logless.log(mode='DEV',  file_type='log')
 def lambda_handler(event, context):
     """
     Accepts an action and a single number, performs the specified action on the number,

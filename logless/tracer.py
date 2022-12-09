@@ -11,16 +11,23 @@ from logless.utils import get_local_result
 
 
 class Tracer:
-    def __init__(self, func_name, mode=None, file_type=None):
+    def __init__(self, func_name, mode=None, file_type=None, file_path='.',
+                 file_name='app'):
         self.final_result = collections.OrderedDict()
         self.frame_to_local_result = {}
         self.func_name = func_name
         self.mode = mode
+
+        # clear temporary file used to store session logs
+        with open("logless.txt", "w") as f:
+            f.write('')
         self.file_type = file_type
+        self.file_path = file_path
+        self.file_name = file_name
 
     # Trace function which returns itself
     def tracer(self, frame, event, arg=None):
-        generator = Generator(self.mode, self.file_type)
+        generator = Generator(self.mode, self.file_type, self.file_path, self.file_name)
         function_name = frame.f_code.co_name
         if function_name == self.func_name:
             old_local_reprs = self.frame_to_local_result.get(frame, {})
@@ -71,12 +78,10 @@ class Tracer:
                 var_name = ''
                 profile = Profile(event, assign_type, var_name, exception, ERROR)
                 generator.add_profile(profile)
-            if self.file_type == 'txt':
-                generator.log()
-            elif self.file_type == 'pdf':
-                generator.log()
-            else:
-                generator.log()
+
+            if self.file_type == 'pdf':
+                generator.print_to_pdf()
+            generator.log()
 
             return self.tracer
         return None

@@ -2,8 +2,13 @@ import sys
 
 import requests
 
-sys.path.append('..')
+sys.path.append('../../..')
 import logless
+
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.ERROR)
 
 
 @logless.log()
