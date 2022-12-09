@@ -4,40 +4,58 @@
 'caption Figure 3: LogLess Object Model of all the components with respective elements and methods.
 'title AST Generated From Function
 
-object Decorator {
-    get_code()
-    settrace(tracer)
-    Tracer
+node LogLess {
+
+    object LogLess {
+            __init__()
+            __call__()
+            _wrap_class()
+            _wrap_function()
+    }
+
+     object Tracer {
+            mode
+            file_type
+            file_path
+            file_name
+            tracer()
+     }
+
+    object Generator {
+        add_profile()
+        log()
+        print_to_pdf()
+        get_mode_config()
+        allow_event_by_frequency()
+    }
+
+    object Profile {
+        wrap_color()
+        with_colors()
+        without_colors()
+        profile_to_dict()
+
+    }
+
+    object Logger {
+        console_logger
+        file_logger
+    }
+
+
 }
 
-
-object Formatter {
-    event_type: str
-    assign_type: str
-    var_name: str
-    var_value: str
-    level: str
+object Log {
+    $<terminal>
+    .txt
+    .log
+    .pdf
 }
 
-object Generator {
-    get_mode_config()
-    add_event()
-    with_colors()
-    without_colors()
-    log()
-    log_info()
-    log_error()
-    print_to_txt()
-    print_to_terminal()
-}
-
-object Output {
-    logging
-}
-
-
-Decorator -ri-> Generator
-Generator <--> Formatter
-Generator -ri-> Output
+LogLess -ri-> Tracer
+Tracer <-do-> Generator
+Generator <--> Logger
+Generator <-le-> Profile
+Generator -ri-> Log
 
 @enduml

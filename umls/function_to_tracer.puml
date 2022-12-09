@@ -4,19 +4,15 @@
 'title Sample Lambda Function
 
 *[#lightgreen]:<font color=blue>logless</font>
-Decorator;
+(decorator);
 
 right side 
 
-++[#lightblue] settrace()
-++[#lightblue] tracer
-+++[#lightblue] Formatter
-+++[#lightblue] Generator
-++++[#Orange] Log Output
+++[#Orange] Log Output
 
 left side 
 
-**[#lightGrey]:<font color=blue>@logless</font>
+**[#lightGrey]:<font color=blue>@logless.log()</font>
 <code>
 '<color #118888>@logless</color>
 def <function>(*args):
