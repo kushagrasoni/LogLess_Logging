@@ -1,7 +1,7 @@
 import sys
+from unittest.mock import Mock
 
-from logless import log
-from logless.decorator import my_tracer
+import logless
 
 
 class TestDecorator:
@@ -11,11 +11,13 @@ class TestDecorator:
         Tests the invocation of the tracer
         """
         # have to patch the method wrt location of this project's package (not sys.settrace)
-        mock_settrace = mocker.patch('logless.decorator.settrace')
+        mock_settrace = mocker.patch('logless.logless.settrace')
+        mock_tracer = mocker.patch('logless.logless.Tracer')
+        mock_tracer.return_value.tracer = Mock()
 
-        @log
+        @logless.log()
         def test_function(*args, **kwargs):
-            mock_settrace.assert_called_once_with(my_tracer)
+            mock_settrace.assert_called_once_with(mock_tracer.return_value.tracer)
 
         test_function()
 
@@ -24,5 +26,5 @@ class TestDecorator:
         def test_function():
             pass
 
-        actual_function = log(test_function)
+        actual_function = logless.log(test_function)
         assert callable(actual_function)

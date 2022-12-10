@@ -1,0 +1,27 @@
+@startmindmap
+
+'caption Figure 2.1: Passing each event type of the Source Code through a tracer and log formatter
+'title Sample Lambda Function
+
+*[#lightgreen]:<font color=blue>logless</font>
+(decorator);
+
+right side 
+
+++[#Orange] Log Output
+
+left side 
+
+**[#lightGrey]:<font color=blue>@logless.log()</font>
+<code>
+'<color #118888>@logless</color>
+def <function>(*args):
+    line...
+    line...
+    line...
+    line...
+    exception...
+    return <response>
+</code>;
+
+@endmindmap

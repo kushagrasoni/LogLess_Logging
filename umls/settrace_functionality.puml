@@ -1,0 +1,61 @@
+@startuml
+'Use of AST - Abstract Syntax Trees for categorizing the code
+
+'caption Figure 3: LogLess Object Model of all the components with respective elements and methods.
+'title AST Generated From Function
+
+node LogLess {
+
+    object LogLess {
+            __init__()
+            __call__()
+            _wrap_class()
+            _wrap_function()
+    }
+
+     object Tracer {
+            mode
+            file_type
+            file_path
+            file_name
+            tracer()
+     }
+
+    object Generator {
+        add_profile()
+        log()
+        print_to_pdf()
+        get_mode_config()
+        allow_event_by_frequency()
+    }
+
+    object Profile {
+        wrap_color()
+        with_colors()
+        without_colors()
+        profile_to_dict()
+
+    }
+
+    object Logger {
+        console_logger
+        file_logger
+    }
+
+
+}
+
+object Log {
+    $<terminal>
+    .txt
+    .log
+    .pdf
+}
+
+LogLess -ri-> Tracer
+Tracer <-do-> Generator
+Generator <--> Logger
+Generator <-le-> Profile
+Generator -ri-> Log
+
+@enduml

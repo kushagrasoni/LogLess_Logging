@@ -1,0 +1,12 @@
+2022-12-10 01:00:18,520 - logless_file_log: INFO - line ==> Initializing Variable "session"
+
+2022-12-10 01:00:18,521 - logless_file_log: INFO - line ==> Initializing Variable "url"
+
+2022-12-10 01:00:18,522 - logless_file_log: INFO - line ==> Initializing Variable "access_token"
+
+2022-12-10 01:00:18,637 - logless_file_log: INFO - line ==> Initializing Variable "r1"
+
+2022-12-10 01:00:18,796 - logless_file_log: INFO - line ==> Initializing Variable "r2"
+
+2022-12-10 01:00:18,797 - logless_file_log: INFO - return ==> Function "lambda_handler" returns ""
+

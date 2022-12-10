@@ -1,28 +1,42 @@
 import pytest
 
+from conf.config import INFO, ERROR
 from logless.generator import Generator
+from logless.profile import Profile
 
 # register plugins
-from logless.log_output import LogGenerator
-
 pytest_plugins = []
 
 
 # initialize fixtures
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def generator():
     """
-    Fixture for the log generator
+    Fixture for the generator
     """
     gen = Generator()
     return gen
 
 
-# initialize fixture
-@pytest.fixture(scope="function")
-def log_generator():
+@pytest.fixture(scope="session")
+def profile1():
     """
-    Fixture for the log generator
+    Fixture for profile 1
     """
-    log_gen = LogGenerator()
-    return log_gen
+    return Profile('line', 'Initializing Variable', 'var', 'ABC', INFO)
+
+
+@pytest.fixture(scope="session")
+def profile2():
+    """
+    Fixture for profile 2
+    """
+    return Profile('call', 'Starting Variable', 'start', '123', "UNSUPPORTED")
+
+
+@pytest.fixture(scope="session")
+def profile3():
+    """
+    Fixture for profile 3
+    """
+    return Profile('line', 'Updated Variable', 'var', 'XYZ', ERROR)

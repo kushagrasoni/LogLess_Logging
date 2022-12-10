@@ -34,7 +34,7 @@ MODE_CONFIG = {
         # critical values will be logged for this mode
         "LOG_VALUES": True,
         # a higher frequency value indicates more logging statements compared to a lower frequency value
-        "FREQUENCY": 2
+        "FREQUENCY": 3
     },
     "PROD": {
         # this mode supports all log levels
@@ -45,3 +45,5 @@ MODE_CONFIG = {
         "FREQUENCY": 1
     }
 }
+
+MAXIMUM_VARIABLE_LEN = 100
