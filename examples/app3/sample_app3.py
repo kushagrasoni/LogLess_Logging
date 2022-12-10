@@ -2,7 +2,7 @@ import sys
 
 import requests
 
-sys.path.append('..')
+sys.path.append('../..')
 import logless
 
 
