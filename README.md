@@ -42,7 +42,7 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-## LogLess Usage
+## Executing an Application
 
 LogLess provides a set of sample lambda applications that can be tested locally. Each application has been applied with the the logless decorator and predefined configurations. In order to the test the existing applications without custom configurations, follow the steps below:
 
