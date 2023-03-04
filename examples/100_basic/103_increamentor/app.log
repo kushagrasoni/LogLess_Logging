@@ -1,0 +1,16 @@
+2023-03-03 21:41:19,143 - logless_file_log: INFO - call ==> Starting Variable "event" with value = "{'action': 'increment', 'number': 3}"
+
+2023-03-03 21:41:19,143 - logless_file_log: INFO - call ==> Starting Variable "context" with value = "<lambda_local.context.Context object at 0x10a578d90>"
+
+2023-03-03 21:41:19,143 - logless_file_log: INFO - line ==> Initializing Variable "result" with value = "None"
+
+2023-03-03 21:41:19,144 - logless_file_log: INFO - line ==> Initializing Variable "action_event" with value = "increment"
+
+2023-03-03 21:41:19,144 - logless_file_log: INFO - line ==> Initializing Variable "number" with value = "3"
+
+2023-03-03 21:41:19,144 - logless_file_log: INFO - line ==> Updated Variable "result" with value = "4"
+
+2023-03-03 21:41:19,144 - logless_file_log: INFO - line ==> Initializing Variable "response" with value = "{'result': 4}"
+
+2023-03-03 21:41:19,145 - logless_file_log: INFO - return ==> Function "handler" returns "" with value = "{'result': 4}"
+

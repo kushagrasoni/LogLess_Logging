@@ -1,0 +1,14 @@
+2023-03-03 22:06:26,487 - logless_file_log: INFO - line ==> Initializing Variable "name"
+
+2023-03-03 22:06:26,487 - logless_file_log: INFO - line ==> Initializing Variable "size"
+
+2023-03-03 22:06:26,487 - logless_file_log: INFO - line ==> Initializing Variable "cur_time"
+
+2023-03-03 22:06:26,488 - logless_file_log: INFO - line ==> Initializing Variable "random_numbers"
+
+2023-03-03 22:06:26,505 - logless_file_log: INFO - line ==> Initializing Variable "template"
+
+2023-03-03 22:06:26,506 - logless_file_log: INFO - line ==> Initializing Variable "html"
+
+2023-03-03 22:06:26,506 - logless_file_log: INFO - line ==> Initializing Variable "f"
+

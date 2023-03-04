@@ -1,0 +1,10 @@
+2023-03-03 21:46:41,481 - logless_file_log: INFO - line ==> Initializing Variable "session"
+
+2023-03-03 21:46:41,482 - logless_file_log: INFO - line ==> Initializing Variable "url"
+
+2023-03-03 21:46:41,482 - logless_file_log: INFO - line ==> Initializing Variable "access_token"
+
+2023-03-03 21:46:41,692 - logless_file_log: INFO - line ==> Initializing Variable "r1"
+
+2023-03-03 21:46:41,692 - logless_file_log: INFO - return ==> Function "handler" returns ""
+

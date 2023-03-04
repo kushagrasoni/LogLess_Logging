@@ -1,0 +1,8 @@
+2023-03-03 21:37:18,571 - logless_file_log: INFO - call ==> Starting Variable "event" with value = "{'sleep': 2}"
+
+2023-03-03 21:37:18,571 - logless_file_log: INFO - call ==> Starting Variable "context" with value = "<lambda_local.context.Context object at 0x10ba8cdf0>"
+
+2023-03-03 21:37:18,571 - logless_file_log: INFO - line ==> Initializing Variable "sleep_time" with value = "2"
+
+2023-03-03 21:37:20,571 - logless_file_log: INFO - return ==> Function "handler" returns "" with value = "{'result': 2}"
+

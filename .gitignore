@@ -8,3 +8,4 @@ __pycache__
 /Scalpel/
 /htmlcov
 .coverage
+/.pytest_cache/

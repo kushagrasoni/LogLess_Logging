@@ -19,3 +19,11 @@ pytest==7.2.0
 pytest-mock==3.10.0
 coverage==6.5.0
 fpdf~=1.7.2
+igraph~=0.10.4
+Jinja2~=3.1.2
+dataclasses~=0.6
+minio~=7.1.13
+squiggle~=0.3.1
+numpy~=1.24.2
+pandas~=1.5.3
+tqdm~=4.64.1

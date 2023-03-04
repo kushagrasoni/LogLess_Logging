@@ -79,6 +79,8 @@ class LogLess:
             settrace(trace.tracer)
             result = function(*args, **kwargs)
             settrace(None)
+            if os.path.exists("logless.txt"):
+                os.remove("logless.txt")
             return result
 
         return wrapper
